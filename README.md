@@ -9,7 +9,7 @@
 ![Linter: Ruff](https://img.shields.io/badge/Linter-Ruff-4b7aed?style=flat-square)
 ![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/AlineDominique/66c52db472148abeda19137803004a81/raw/coverage.json)
 
-**Rastros Musical** is a data engineering and visualization platform designed to track the spread and evolution of musical genres between **Latin America** and **Ásia**.
+**Rastros Musical** is a data engineering and visualization platform designed to track the spread and evolution of musical genres between **Latin America** and **Asia**.
 
 ---
 
@@ -56,7 +56,9 @@ rastros_musical/
 
 1. **Clone the repository:**
 
-```bash git clone [https://github.com/seu-usuario/rastros_musical.git](https://github.com/seu-usuario/rastros_musical.git)```
+```bash git clone https://github.com/seu-usuario/rastros_musical.git```
+
+2. **Access the folder**
 ```bash cd rastros_musical```
 
 ### Development Workflow
