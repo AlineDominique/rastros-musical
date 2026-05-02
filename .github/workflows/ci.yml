@@ -31,3 +31,22 @@ jobs:
       - name: Run Tests with Coverage
         run: |
           pytest --cov=app --cov-report=term-missing
+      
+      - name: Run Tests with Coverage
+        id: pytest
+        run: |
+          pytest --cov=app --cov-report=term-missing > coverage.txt
+          cat coverage.txt
+          PERCENTAGE=$(grep 'TOTAL' coverage.txt | awk '{print $NF}' | sed 's/%//')
+          echo "COVERAGE_PERCENTAGE=$PERCENTAGE" >> $GITHUB_ENV
+
+      - name: Generate Coverage Badge
+        uses: schneegans/dynamic-badges-action@v1.7.0
+        with:
+          auth: ${{ secrets.GIST_TOKEN }}
+          gistID: <SEU_ID_DO_GIST_AQUI>
+          filename: coverage.json
+          label: Coverage
+          message: ${{ env.COVERAGE_PERCENTAGE }}%
+          color: green
+        if: github.ref == 'refs/heads/main'

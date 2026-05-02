@@ -1,9 +1,13 @@
 # Rastros Musical 🎵
 
-![CI Pipeline](https://github.com/AlineDominique/rastros-musical-api/actions/workflows/ci.yml/badge.svg)
-![Linter: Ruff](https://img.shields.io/badge/Linter-Ruff-4b7aed?style=flat-square)
+
 ![Python: 3.13](https://img.shields.io/badge/Python-3.13-blue?style=flat-square)
 ![Database: DuckDB](https://img.shields.io/badge/Database-DuckDB-fff100?style=flat-square&logo=duckdb&logoColor=black)
+
+![CI Pipeline](https://github.com/AlineDominique/rastros-musical-api/actions/workflows/ci.yml/badge.svg)
+![Linter: Ruff](https://img.shields.io/badge/Linter-Ruff-4b7aed?style=flat-square)
+!![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/<SEU_USUARIO>/<ID_DO_GIST>/raw/coverage.json)
+
 
 **Rastros Musical** is a data engineering and visualization platform designed to track the spread and evolution of musical genres between **Latin America ** e **Ásia**.
 
