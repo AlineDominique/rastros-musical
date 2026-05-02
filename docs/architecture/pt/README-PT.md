@@ -46,8 +46,7 @@ rastros_musical/
 │   └── processed/      # Dados Limpos e Transformados
 ├── docs/               # Documentação Técnica
 │   └── architecture/   # Registros de Decisão de Arquitetura (ADRs)
-│       ├── pt/         # ADRs em Português
-│       └── en          # ADRs em Inglês
+│   └── management/     # Registros de Gestão do Projeto (todos)
 ├── MAkefile 
 └── pyproject.toml
 ├── docker-compose.yml  

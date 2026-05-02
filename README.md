@@ -56,6 +56,7 @@ rastros_musical/
 │   └── processed/      # Silver/Gold Layers: Cleaned & Analytical Data
 ├── docs/               # Technical Documentation
 │   └── architecture/   # Architecture Decision Records (ADRs)
+│   └── management/     # Project MAnagement (TODOS)
 ├── Makefile            # Project Automation Commands
 ├── pyproject.toml      # Build System, Ruff & Pytest Configuration
 ├── docker-compose.yml  # Multi-container Orchestration
