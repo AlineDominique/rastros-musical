@@ -90,4 +90,4 @@ We use a `Makefile` to standardize common operations. If you don't have `make` i
 
 
 ## Documentation
-For detailed information on technical decisions and architectural justifications, please refer to our Architecture Decision Records [ADRs] (./docs/architecture/en/).
+For detailed information on technical decisions and architectural justifications, please refer to our Architecture Decision Records **(ADRs)** located in `docs/architecture/en/`.
