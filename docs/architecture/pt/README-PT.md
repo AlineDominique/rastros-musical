@@ -79,4 +79,4 @@ Utilizamos um `Makefile` para padronizar operações comuns. Se não tiver o `ma
     ```
 
 ## Documentação
-Para informações detalhadas sobre decisões técnicas e justificativas arquiteturais, consulte os nossos Registros de Decisão de Arquitetura (ADRs) localizados em `docs/architeture/pt/`.
+Para informações detalhadas sobre decisões técnicas e justificativas arquiteturais, consulte os nossos Registros de Decisão de Arquitetura [ADRs] (.docs/architeture/pt/).
