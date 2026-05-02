@@ -1,4 +1,3 @@
-
 """Main entry point for the FastAPI application and route definitions."""
 
 from fastapi import FastAPI

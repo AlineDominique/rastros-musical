@@ -1,4 +1,5 @@
 """Unit and integration tests for the main API endpoints."""
+
 from fastapi.testclient import TestClient
 
 from app.main import app
