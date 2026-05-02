@@ -101,7 +101,7 @@ Para informações detalhadas sobre decisões técnicas e justificativas arquite
 O planejamento estratégico e o acompanhamento de tarefas deste projeto estão centralizados em nossa documentação de gestão. Seguimos uma abordagem por fases para garantir a precisão inegociável dos dados exigida para este ecossistema.
 
 Você pode acompanhar o progresso em tempo real aqui:
-**[Roadmap de Desenvolvimento](/../../docs/management/todo-pt.md)**
+**[Roadmap de Desenvolvimento](/../docs/management/todo-pt.md)**
 
 ### Status Atual:
 - **Fase 1 (Fundação):** Concluída ✅
