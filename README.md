@@ -11,7 +11,7 @@
 
 **Rastros Musical** is a data engineering and visualization platform designed to track the spread and evolution of musical genres between **Latin America** and **Asia**.
 
-[Portuguese (BR) Version](./docs/architecture/pt/README_PT.md)
+[Portuguese (BR) Version](./rastros_musical/docs/architecture/pt/README_PT.md)
 
 ---
 
