@@ -95,3 +95,14 @@ Utilizamos um `Makefile` para padronizar operações comuns. Se não tiver o `ma
 
 ## Documentação
 Para informações detalhadas sobre decisões técnicas e justificativas arquiteturais, consulte os nossos Registros de Decisão de Arquitetura **(ADRs)** localizados em `docs/architeture/pt/`.
+
+## Gestão do Projeto
+
+O planejamento estratégico e o acompanhamento de tarefas deste projeto estão centralizados em nossa documentação de gestão. Seguimos uma abordagem por fases para garantir a precisão inegociável dos dados exigida para este ecossistema.
+
+Você pode acompanhar o progresso em tempo real aqui:
+**[Roadmap de Desenvolvimento](./docs/management/todo-pt.md)**
+
+### Status Atual:
+- **Fase 1 (Fundação):** Concluída ✅
+- **Fase 2 (Engenharia de Dados):** Em andamento 🏗️

@@ -104,3 +104,14 @@ We use a `Makefile` to standardize common operations. If you don't have `make` i
 
 ## Documentation
 For detailed information on technical decisions and architectural justifications, please refer to our Architecture Decision Records **(ADRs)** located in `docs/architecture/en/`.
+
+## Project Management
+
+The strategic planning and task tracking for this project are centralized in our management documentation. We follow a phased approach to ensure the non-negotiable data precision required for this ecosystem.
+
+You can follow our live progress here:
+**[Full Development Roadmap](./docs/management/todo-en.md)**
+
+### Current Status:
+- **Phase 1 (Foundation):** Completed ✅
+- **Phase 2 (Data Engineering):** In Progress

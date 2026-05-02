@@ -21,7 +21,6 @@ Este documento detalha todas as etapas para o MVP, unindo engenharia de dados, b
 - [ ] **Singleton de Banco**: Gerenciar conexões persistentes com o arquivo `.db` do DuckDB.
 - [ ] **Documentação OpenAPI**: Validar schemas e exemplos no Swagger para consumo do Frontend.
 
-
 ## 🟠 Fase 4: Interface e Visualização (React + Deck.gl)
 - [ ] **Setup do Framework (/web)**: Inicializar projeto React com suporte a i18n (PT/EN/ES) via Docker.
 - [ ] **Integração Deck.gl**: Configurar `ArcLayer` e `IconLayer` para visualização geográfica dinâmica.
@@ -29,7 +28,6 @@ Este documento detalha todas as etapas para o MVP, unindo engenharia de dados, b
 - [ ] **Dashboard de Métricas**: Criar gráficos para comparação de popularidade entre regiões.
 
 ## 🔴 Fase 5: DevOps e Deploy Automático (Gratuito)
-- [ ] **CI/CD com GitHub Actions**: Criar automação para rodar testes e linting em cada Push.
 - [ ] **Deploy Automático Backend**: Vincular pasta `/app` ao Render ou Koyeb.
 - [ ] **Deploy Automático Frontend**: Vincular pasta `/web` à Vercel ou Netlify.
 - [ ] **Auditoria de Dados Final**: Implementar check de consistência proativo antes do deploy.
