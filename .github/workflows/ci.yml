@@ -27,11 +27,7 @@ jobs:
         run: |
           ruff check .
           ruff format --check .
-          
-      - name: Run Tests with Coverage
-        run: |
-          pytest --cov=app --cov-report=term-missing
-      
+
       - name: Run Tests with Coverage
         id: pytest
         run: |
