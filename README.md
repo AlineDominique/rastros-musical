@@ -47,8 +47,8 @@ rastros_musical/
 
 1. **Clone the repository:**
 
-```bash git clone [https://github.com/seu-usuario/rastros_musical.git](https://github.com/seu-usuario/rastros_musical.git)
-cd rastros_musical```
+```bash git clone [https://github.com/seu-usuario/rastros_musical.git](https://github.com/seu-usuario/rastros_musical.git)```
+```bash cd rastros_musical```
 
 ### Development Workflow
 We use a `Makefile` to standardize common operations. If you don't have `make` installed, you can run the commands inside the brackets directly in your terminal.
