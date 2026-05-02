@@ -1,0 +1,32 @@
+# 🚀 Plano de Desenvolvimento Full-Stack: Rastros Musical
+
+Este documento detalha todas as etapas para o MVP, unindo engenharia de dados, backend e visualização geográfica em um Monorepo.
+
+## 🟢 Fase 1: Fundação e Infraestrutura (Docker & Docs)
+- [ ] **Documentação de Governança**: Revisar se todos os ADRs estão atualizados com a estrutura de Monorepo.
+- [ ] **Estruturar Diretórios**: Criar as pastas `/app` (Backend), `/web` (Frontend), `/data` e `/docs`.
+- [ ] **Configuração Docker**: Criar `Dockerfile` para Backend e `docker-compose.yml` para orquestração de ambos os serviços.
+- [ ] **Setup de Qualidade**: Configurar Ruff e Pytest (incluindo `conftest.py` para DuckDB).
+
+## 🔵 Fase 2: Engenharia de Dados (Arquitetura Medallion)
+- [ ] **Camada Bronze (Raw)**: Implementar script de ingestão do MusicBrainz para armazenamento de dados brutos.
+- [ ] **Camada Silver (Trusted)**: Implementar lógica de normalização e mapeamento geográfico (LatAm vs Ásia) via Python.
+- [ ] **Camada Gold (Refined)**: Criar tabelas analíticas agregadas por ano e região para alimentar a API.
+- [ ] **Schemas Pydantic**: Definir contratos de dados para Artistas, Gêneros e Localização.
+
+## 🟡 Fase 3: API de Serviços (FastAPI)
+- [ ] **Endpoints de Séries Temporais**: Criar rotas para retornar a evolução de gêneros e migrações musicais.
+- [ ] **Singleton de Banco**: Gerenciar conexões persistentes com o arquivo `.db` do DuckDB.
+- [ ] **Documentação OpenAPI**: Validar schemas e exemplos no Swagger para consumo do Frontend.
+
+## 🟠 Fase 4: Interface e Visualização (React + Deck.gl)
+- [ ] **Setup do Framework (/web)**: Inicializar projeto React com suporte a i18n (PT/EN/ES) via Docker.
+- [ ] **Integração Deck.gl**: Configurar `ArcLayer` e `IconLayer` para visualização geográfica dinâmica.
+- [ ] **Componente Time-Slider**: Desenvolver controle para navegação pela linha do tempo histórica (1970 - 2026).
+- [ ] **Dashboard de Métricas**: Criar gráficos para comparação de popularidade entre regiões.
+
+## 🔴 Fase 5: DevOps e Deploy Automático (Gratuito)
+- [ ] **CI/CD com GitHub Actions**: Criar automação para rodar testes e linting em cada Push.
+- [ ] **Deploy Automático Backend**: Vincular pasta `/app` ao Render ou Koyeb.
+- [ ] **Deploy Automático Frontend**: Vincular pasta `/web` à Vercel ou Netlify.
+- [ ] **Auditoria de Dados Final**: Implementar check de consistência proativo antes do deploy.

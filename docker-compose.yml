@@ -4,13 +4,13 @@ services:
     container_name: rastros_musical_app
     volumes:
       - .:/app
-      - duckdb_data:/app/data/processed  # Persiste o banco de dados
+      - ./data:/app/data
     ports:
       - "8000:8000"
     environment:
       - ENV=development
       - DATABASE_PATH=/app/data/processed/rastros.duckdb
-      - PYTHONPATH=.
+      - PYTHONPATH=/app
     stdin_open: true
     tty: true
 

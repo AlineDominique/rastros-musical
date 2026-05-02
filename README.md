@@ -22,31 +22,44 @@ The project is built to be multilingual, natively supporting:
 *   **Español** (ES)
 
 ## 🏗️ Tech Stack
+
+### Backend & Data Engineering
 *   **Language:** [Python 3.13](https://docs.python.org/3.13/) (Focus on Type Hinting & [Pydantic](https://docs.pydantic.dev/))
-*   **API Framework:** [FastAPI](https://fastapi.tiangolo.com/)[cite: 1]
+*   **API Framework:** [FastAPI](https://fastapi.tiangolo.com/)
 *   **Data Engine:** [DuckDB](https://duckdb.org/) (In-process OLAP database)
-*   **Spatial Support:** [DuckDB Spatial Extension](https://duckdb.org/docs/extensions/spatial)[cite: 1]
-*   **Quality Assurance:** [Pytest](https://docs.pytest.org/) (Testing) & [Ruff](https://docs.astral.sh/ruff/) (Linter & Formatter)
-*   **Infrastructure:** [Docker](https://www.docker.com/) & [Docker Compose](https://docs.docker.com/compose/)[cite: 1]
-*   **CI/CD:** [GitHub Actions](https://github.com/features/actions)[cite: 1]
+*   **Spatial Support:** [DuckDB Spatial Extension](https://duckdb.org/docs/extensions/spatial)
+*   **Quality Assurance:** [Pytest](https://docs.pytest.org/) & [Ruff](https://docs.astral.sh/ruff/) (Linter & Formatter)
+
+### Frontend & Visualization
+*   **Framework:** [React](https://react.dev/) (UI & State Management)
+*   **Visualization:** [Deck.gl](https://deck.gl/) (Large-scale WebGL-powered Data Visualization)
+*   **Internationalization:** [i18next](https://www.i18next.com/) (Support for PT/EN/ES)
+
+### Infrastructure & Automation
+*   **Containerization:** [Docker](https://www.docker.com/) & [Docker Compose](https://docs.docker.com/compose/)
+*   **CI/CD:** [GitHub Actions](https://github.com/features/actions)
 *   **Automation:** [GNU Make](https://www.gnu.org/software/make/)
 
 ## 📂 Project Structure
 ```text
 rastros_musical/
-├── .github/workflows/  # CI/CD Pipelines
-├── app/                # Application Core
-│   ├── api/            # FastAPI Endpoints
-│   ├── core/           # Business Logic & Projections
-│   ├── db/             # Data Layer (DuckDB)
-│   └── schemas/        # Data Contracts (Pydantic)
-├── data/               # Partitioned Storage
-│   ├── raw/            # Immutable Raw Data
-│   └── processed/      # Cleaned and Transformed Data
+├── .github/workflows/  # CI/CD Pipelines (GitHub Actions)
+├── app/                # Backend Core (Python & FastAPI)
+│   ├── api/            # FastAPI Endpoints & API Logic
+│   ├── core/           # Business Logic, Projections & Services
+│   ├── db/             # Data Access Layer & DuckDB Integration
+│   ├── schemas/        # Data Contracts & Validation (Pydantic)
+│   └── tests/          # Backend Unit & Integration Tests
+├── web/                # Frontend (React & Deck.gl) [Planned]
+├── data/               # Persistent Storage (Medallion Architecture)
+│   ├── raw/            # Bronze Layer: Immutable Raw Data
+│   └── processed/      # Silver/Gold Layers: Cleaned & Analytical Data
 ├── docs/               # Technical Documentation
 │   └── architecture/   # Architecture Decision Records (ADRs)
-├── docker-compose.yml  
-└── Dockerfile
+├── Makefile            # Project Automation Commands
+├── pyproject.toml      # Build System, Ruff & Pytest Configuration
+├── docker-compose.yml  # Multi-container Orchestration
+└── Dockerfile          # Backend Container Definition
 ```
 
 

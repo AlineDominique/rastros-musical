@@ -12,12 +12,21 @@ O projeto foi construído para ser multilíngue, suportando nativamente:
 *   **Español** (ES)
 
 ## 🏗️ Stack Tecnológica
+
+### Backend & Engenharia de Dados
 *   **Linguagem:** [Python 3.13](https://docs.python.org/3.13/) (Foco em Type Hinting & [Pydantic](https://docs.pydantic.dev/))
 *   **Framework de API:** [FastAPI](https://fastapi.tiangolo.com/)
-*   **Motor de Dados:** [DuckDB](https://duckdb.org/) (Banco de dados OLAP in-process)[cite: 4, 6]
-*   **Suporte Espacial:** [Extensão Spatial do DuckDB](https://duckdb.org/docs/extensions/spatial)
-*   **Qualidade:** [Pytest](https://docs.pytest.org/) (Testes) & [Ruff](https://docs.astral.sh/ruff/) (Linter & Formatador)[cite: 1, 5, 6]
-*   **Infraestrutura:** [Docker](https://www.docker.com/) & [Docker Compose](https://docs.docker.com/compose/)
+*   **Motor de Dados:** [DuckDB](https://duckdb.org/) (Banco de dados OLAP in-process)
+*   **Suporte Espacial:** [DuckDB Spatial Extension](https://duckdb.org/docs/extensions/spatial)
+*   **Garantia de Qualidade:** [Pytest](https://docs.pytest.org/) (Testes) & [Ruff](https://docs.astral.sh/ruff/) (Linter & Formatador)
+
+### Frontend & Visualização
+*   **Framework:** [React](https://react.dev/) (Interface & Gestão de Estado)
+*   **Visualização:** [Deck.gl](https://deck.gl/) (Visualização de dados em larga escala via WebGL/GPU)
+*   **Internacionalização:** [i18next](https://www.i18next.com/) (Suporte para PT/EN/ES)
+
+### Infraestrutura & Automação
+*   **Conteinerização:** [Docker](https://www.docker.com/) & [Docker Compose](https://docs.docker.com/compose/)
 *   **CI/CD:** [GitHub Actions](https://github.com/features/actions)
 *   **Automação:** [GNU Make](https://www.gnu.org/software/make/)
 
@@ -30,11 +39,17 @@ rastros_musical/
 │   ├── core/           # Lógica de Negócio & Projeções
 │   ├── db/             # Camada de Dados (DuckDB)
 │   └── schemas/        # Contratos de Dados (Pydantic)
+│   └── tests/          # Testes agora integrados ao backend
+├── web/                # Frontend (React + Deck.gl) - Fase 4
 ├── data/               # Armazenamento Particionado
 │   ├── raw/            # Dados Brutos Imutáveis
 │   └── processed/      # Dados Limpos e Transformados
 ├── docs/               # Documentação Técnica
-│   └── adr/            # Registros de Decisão de Arquitetura (ADRs)
+│   └── architecture/   # Registros de Decisão de Arquitetura (ADRs)
+│       ├── pt/         # ADRs em Português
+│       └── en          # ADRs em Inglês
+├── MAkefile 
+└── pyproject.toml
 ├── docker-compose.yml  
 └── Dockerfile
 ```
