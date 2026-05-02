@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environments
+.venv/
+env/
+
+# Docker
+.docker/
+
+# Data & Database (Crucial para Engenharia de Dados)
+data/*.db
+data/*.wal
+*.csv
+*.parquet
+
+# IDEs
+.vscode/
+.idea/
