@@ -11,6 +11,8 @@
 
 **Rastros Musical** is a data engineering and visualization platform designed to track the spread and evolution of musical genres between **Latin America** and **Asia**.
 
+[Versão em Português (BR)](./README_PT.md)
+
 ---
 
 ## 🌍 Internationalization (i18n)
@@ -59,6 +61,7 @@ rastros_musical/
 ```bash git clone https://github.com/seu-usuario/rastros_musical.git```
 
 2. **Access the folder**
+
 ```bash cd rastros_musical```
 
 ### Development Workflow

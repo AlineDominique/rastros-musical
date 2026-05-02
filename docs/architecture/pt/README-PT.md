@@ -1,6 +1,8 @@
 # Rastros Musical 🎵
 **Rastros Musical** é uma plataforma de engenharia e visualização de dados projetada para rastrear a propagação e evolução de gêneros musicais entre a **América Latina** e a **Ásia**.
 
+[English Version](./README.md)
+
 ---
 
 ## 🌍 Internacionalização (i18n)
