@@ -1,6 +1,10 @@
+[CI Pipeline](https://github.com/AlineDominique/rastros-musical-api/actions/workflows/ci.yml/badge.svg)
+![Linter: Ruff](https://img.shields.io/badge/Linter-Ruff-4b7aed?style=flat-square)
+![Python: 3.13](https://img.shields.io/badge/Python-3.13-blue?style=flat-square)
+
 # Rastros Musical 🎵
 
-**Rastros Musical**is a data engineering and visualization platform designed to track the spread and evolution of musical genres between **Latin America ** e **Ásia**.
+**Rastros Musical** is a data engineering and visualization platform designed to track the spread and evolution of musical genres between **Latin America ** e **Ásia**.
 
 ---
 
@@ -70,7 +74,7 @@ We use a `Makefile` to standardize common operations. If you don't have `make` i
 
 4.  **Lint & Format Code:**
     ```bash
-    make lint    # [docker-compose exec app ruff check .]
+    make lint    # [docker-compose exec app ruff check . --fix]
     make format  # [docker-compose exec app ruff format .]
     ```
 

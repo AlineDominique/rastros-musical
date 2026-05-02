@@ -16,12 +16,19 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
+          cache: 'pip'
           
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install pytest  # Adicionaremos ao requirements depois
+          pip install ruff pytest pytest-cov
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      
+      - name: Run Ruff (Linter & Formatter check)
+        run: |
+          ruff check .
+          ruff format --check .
           
-      - name: Run Tests
-        run: pytest
+      - name: Run Tests with Coverage
+        run: |
+          pytest --cov=app --cov-report=term-missing
