@@ -9,7 +9,7 @@
 ![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/AlineDominique/66c52db472148abeda19137803004a81/raw/coverage.json)
 
 
-**Rastros Musical** is a data engineering and visualization platform designed to track the spread and evolution of musical genres between **Latin America ** e **Ásia**.
+**Rastros Musical** is a data engineering and visualization platform designed to track the spread and evolution of musical genres between **Latin America ** and **Ásia**.
 
 ---
 
