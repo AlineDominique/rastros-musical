@@ -10,7 +10,7 @@ This document tracks the MVP progress, integrating data engineering, backend ser
 - [x] **CI/CD Pipeline**: Implement GitHub Actions workflow to automate `make check` on every push.
 
 ## 🔵 Phase 2: Data Engineering (Medallion Architecture) 🏗️
-- [ ] **Pydantic Schemas**: Define data contracts for Artists, Genres, and Locations using Python 3.13 Type Hinting.
+- [X] **Pydantic Schemas**: Define data contracts for Artists, Genres, and Locations using Python 3.13 Type Hinting.
 - [ ] **Bronze Layer (Raw)**: Implement MusicBrainz ingestion scripts for raw data storage.
 - [ ] **Silver Layer (Trusted)**: Develop normalization logic and LatAm vs. Asia geographic mapping.
 - [ ] **Gold Layer (Refined)**: Create aggregated analytical tables in DuckDB to power the API.

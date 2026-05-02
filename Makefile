@@ -14,10 +14,11 @@ test:
 	$(DOCKER_EXEC) pytest app/tests
 
 lint:
-	$(DOCKER_EXEC) ruff check . --fix
+	$(DOCKER_EXEC) ruff check
 
 format:
 	$(DOCKER_EXEC) ruff format .
+	$(DOCKER_EXEC) ruff check --unsafe-fixes .
 
 check: lint test
 
