@@ -8,6 +8,7 @@ from app.db.database import DuckDBManager
 @pytest.fixture
 def temp_db(tmp_path):
     """Creates a temporary database for testing.
+
     Using tmp_path (a built-in pytest fixture) ensures the DB is
     created in a safe, temporary location that is cleaned up after.
     """
