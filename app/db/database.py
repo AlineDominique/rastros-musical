@@ -19,7 +19,6 @@ class DuckDBManager:
             db_path (str): Path to the .db file.
         """
         self.db_path = db_path
-        # Create the directory if it doesn't exist to prevent IOErrors
         os.makedirs(os.path.dirname(self.db_path), exist_ok=True)
 
     @contextmanager

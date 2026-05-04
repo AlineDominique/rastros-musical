@@ -11,10 +11,10 @@ This document tracks the MVP progress, integrating data engineering, backend ser
 
 ## 🔵 Phase 2: Data Engineering (Medallion Architecture) 🏗️
 - [X] **Pydantic Schemas**: Define data contracts for Artists, Genres, and Locations using Python 3.13 Type Hinting.
+- [X] **Spatial Data Setup**: Enable DuckDB spatial extensions for geographic coordinate support.
 - [ ] **Bronze Layer (Raw)**: Implement MusicBrainz ingestion scripts for raw data storage.
 - [ ] **Silver Layer (Trusted)**: Develop normalization logic and LatAm vs. Asia geographic mapping.
 - [ ] **Gold Layer (Refined)**: Create aggregated analytical tables in DuckDB to power the API.
-- [ ] **Spatial Data Setup**: Enable DuckDB spatial extensions for geographic coordinate support.
 
 ## 🟡 Phase 3: Service API (FastAPI)
 - [ ] **Time-Series Endpoints**: Build routes for genre evolution and musical migration trends.

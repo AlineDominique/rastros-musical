@@ -14,7 +14,7 @@ Este documento detalha todas as etapas para o MVP, unindo engenharia de dados, b
 - [ ] **Camada Silver (Trusted)**: Implementar lógica de normalização e mapeamento geográfico (LatAm vs Ásia) via Python.
 - [ ] **Camada Gold (Refined)**: Criar tabelas analíticas agregadas por ano e região para alimentar a API.
 - [X] **Schemas Pydantic**: Definir contratos de dados para Artistas, Gêneros e Localização.
-- [ ] **Setup de Dados:** Configurar extensões espaciais do DuckDB para suporte geográfico.
+- [X] **Setup de Dados:** Configurar extensões espaciais do DuckDB para suporte geográfico.
 
 ## 🟡 Fase 3: API de Serviços (FastAPI)
 - [ ] **Endpoints de Séries Temporais**: Criar rotas para retornar a evolução de gêneros e migrações musicais.
