@@ -1,6 +1,16 @@
 """Main entry point for the FastAPI application and route definitions."""
 
+import logging
+
 from fastapi import FastAPI
+
+from app.exceptions.handlers import internal_error_handler, not_found_handler
+from app.middleware.logging import log_requests
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+)
 
 app = FastAPI(
     title="Rastros Musical API",
@@ -8,8 +18,15 @@ app = FastAPI(
     version="0.1.0",
 )
 
+# Middlewares
+app.middleware("http")(log_requests)
 
-@app.get("/")
+# Exception handlers
+app.add_exception_handler(404, not_found_handler)
+app.add_exception_handler(500, internal_error_handler)
+
+
+@app.get("/", tags=["Health"], response_model=dict[str, str])
 async def root() -> dict[str, str]:
     """Provides a basic health check and welcome message for the API.
 
@@ -24,7 +41,7 @@ async def root() -> dict[str, str]:
     }
 
 
-@app.get("/health")
+@app.get("/health", tags=["Health"], response_model=dict[str, str])
 async def health_check() -> dict[str, str]:
     """Verifies the operational status of the application.
 

@@ -1,27 +1,22 @@
 FROM python:3.13-slim
 
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    gcc \
-    g++ \
-    python3-dev \
-    libssl-dev \
-    && rm -rf /var/lib/apt/lists/*
+# Instala o uv
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
-RUN pip install --upgrade pip
+# Copia arquivos de dependência E o README (exigido pelo hatchling)
+COPY pyproject.toml uv.lock README.md ./
 
-COPY requirements.txt .
-COPY requirements-dev.txt .
+# Instala dependências (produção + dev)
+RUN uv sync --frozen --dev
 
-RUN pip install --no-cache-dir -r requirements-dev.txt
-
+# Copia o restante do código
 COPY . .
 
 EXPOSE 8000
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+CMD ["uv", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

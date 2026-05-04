@@ -1,7 +1,41 @@
+# Python environment
 .venv
 __pycache__
 *.pyc
-.git
-.github
+*.pyo
+*.egg-info
+dist/
+build/
+
+# Tools
+.pytest_cache
+.ruff_cache
+htmlcov
+.coverage
+coverage.xml
+
+# Data (DuckDB mounted as volume)
 data/raw/*
 data/processed/*
+data/*.db
+data/*.wal
+
+# Git and CI
+.git
+.github
+
+# Documentation (not needed in production)
+docs/
+
+# IDE and OS
+.vscode
+.idea
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.*
+!.env-sample

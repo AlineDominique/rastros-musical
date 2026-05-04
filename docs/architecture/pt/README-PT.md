@@ -60,20 +60,19 @@ rastros_musical/
 *   Docker & Docker Compose
 *   Make (opcional, mas recomendado)
 
-1. Clonar o repositório:
+1. Clonar o repositório e acesso a pasta:
 
-```bash git clone https://github.com/seu-usuario/rastros_musical.git```
-
-2. Acessar a pasta
-
-```bash cd rastros_musical```
+    ```bash 
+    git clone https://github.com/AlineDominique/rastros-musical-api
+    cd rastros_musical
+    ```
 
 ### Fluxo de Desenvolvimento
 Utilizamos um `Makefile` para padronizar operações comuns. Se não tiver o `make` instalado, pode executar os comandos entre colchetes diretamente no terminal.
 
 1.  **Build do ambiente:**
     ```bash
-    make build  # [docker-compose up --build]
+    make build  # [docker-compose up --build]sim
     ```
 
 2.  **Executar a aplicação:**
@@ -90,6 +89,29 @@ Utilizamos um `Makefile` para padronizar operações comuns. Se não tiver o `ma
     ```bash
     make lint    # [docker-compose exec app ruff check . --fix]
     make format  # [docker-compose exec app ruff format .]
+    ```
+
+### Gerenciamento de Dependências
+
+Este projeto utiliza [uv](https://docs.astral.sh/uv/) e `pyproject.toml` (PEP 621) para gerenciamento de dependências. As dependências de produção são declaradas em `[project.dependencies]` e as de desenvolvimento em `[project.optional-dependencies] dev`. O arquivo `uv.lock` garante builds reproduzíveis.
+
+1. **Adicionar uma nova dependência:**
+    ```bash
+    # Dependência de produção
+    uv add httpx
+
+    # Dependência de desenvolvimento
+    uv add --dev pytest-watch
+    ```
+
+2. **Atualizar todas as dependências:**
+    ```bash
+    uv lock --upgrade
+    ```
+
+3. **Sincronizar o ambiente (dentro do container):**
+    ```bash
+    docker compose exec app uv sync --dev
     ```
 
 ## Documentação

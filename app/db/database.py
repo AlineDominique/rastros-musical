@@ -23,7 +23,7 @@ class DuckDBManager:
         os.makedirs(os.path.dirname(self.db_path), exist_ok=True)
 
     @contextmanager
-    def get_connection(self) -> Generator[duckdb.DuckDBPyConnection, None, None]:
+    def get_connection(self) -> Generator[duckdb.DuckDBPyConnection]:
         """Creates a thread-safe connection to DuckDB.
 
         Yields:

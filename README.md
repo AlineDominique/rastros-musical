@@ -70,13 +70,12 @@ rastros_musical/
 *   Docker & Docker Compose
 *   Make (optional, but recommended)
 
-1. **Clone the repository:**
+1. **Clone the repository and Access the folder:**
 
-```bash git clone https://github.com/seu-usuario/rastros_musical.git```
-
-2. **Access the folder**
-
-```bash cd rastros_musical```
+    ```bash 
+    git clone https://github.com/AlineDominique/rastros-musical-api
+    cd rastros_musical
+    ```
 
 ### Development Workflow
 We use a `Makefile` to standardize common operations. If you don't have `make` installed, you can run the commands inside the brackets directly in your terminal.
@@ -102,6 +101,26 @@ We use a `Makefile` to standardize common operations. If you don't have `make` i
     make format  # [docker-compose exec app ruff format .]
     ```
 
+### Managing Dependencies
+
+This project uses [uv](https://docs.astral.sh/uv/) and `pyproject.toml` (PEP 621) for dependency management. Production dependencies are declared in `[project.dependencies]` and development dependencies in `[project.optional-dependencies] dev`. The lock file `uv.lock` ensures reproducible builds.
+
+1. **Adding a new dependency:**
+    ```bash
+        # Production dependency
+        uv add httpx
+
+        # Development dependency
+        uv add --dev pytest-watch
+    ```
+2. **Updating all dependencies:**
+    ```bash
+        uv lock --upgrade
+    ```
+3. **Syncing the environment (inside the container):**
+    ```bash
+    docker compose exec app uv sync --dev
+    ```
 
 ## Documentation
 For detailed information on technical decisions and architectural justifications, please refer to our Architecture Decision Records **(ADRs)** located in `docs/architecture/en/`.

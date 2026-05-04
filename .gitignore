@@ -10,6 +10,7 @@ htmlcov/
 # Environments
 .venv/
 env/
+docs/anotacoes/*
 
 # Docker
 .docker/

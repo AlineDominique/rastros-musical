@@ -9,18 +9,28 @@ up:
 down:
 	docker compose down
 
-
 test:
-	$(DOCKER_EXEC) pytest app/tests
+	$(DOCKER_EXEC) uv run pytest app/tests
 
 lint:
-	$(DOCKER_EXEC) ruff check
+	$(DOCKER_EXEC) uv run ruff check .
 
 format:
-	$(DOCKER_EXEC) ruff format .
-	$(DOCKER_EXEC) ruff check --unsafe-fixes .
+	$(DOCKER_EXEC) uv run ruff format .
+	$(DOCKER_EXEC) uv run ruff check --fix .
 
 check: lint test
 
 test-cov:
-	$(DOCKER_EXEC) pytest --cov=app app/tests/ --cov-report=term-missing
+	$(DOCKER_EXEC) uv run pytest --cov=app app/tests/ --cov-report=term-missing
+
+
+logs:
+	docker compose logs -f app
+
+clean:
+	find . -type d -name "__pycache__" -exec rm -rf {} +
+	find . -type f -name "*.pyc" -delete
+	find . -type d -name ".pytest_cache" -exec rm -rf {} +
+	find . -type d -name ".ruff_cache" -exec rm -rf {} +
+	rm -rf htmlcov .coverage coverage.xml
