@@ -31,8 +31,8 @@ def mocks():
 @pytest.mark.parametrize(
     "method,expected_count",
     [
-        ("search_artists_by_genre", 21),
-        ("insert_genre", 21),
+        ("search_artists_by_genre", 31),
+        ("insert_genre", 31),
     ],
 )
 def test_run_ingestion_calls_method(mocks, method, expected_count):
@@ -57,8 +57,8 @@ def test_run_ingestion_inserts_artists_and_relations(mocks):
 
     run_ingestion()
 
-    assert mock_loader.insert_artist.call_count == 21
-    assert mock_loader.insert_artist_genre.call_count == 21
+    assert mock_loader.insert_artist.call_count == 31
+    assert mock_loader.insert_artist_genre.call_count == 31
 
 
 # ===== Testes de logging =====

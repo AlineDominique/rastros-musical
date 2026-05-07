@@ -12,6 +12,11 @@ LATAM_GENRES = [
     "vallenato",
     "merengue",
     "pop latin",
+    "tango",
+    "forro",
+    "mpb",
+    "mariachi",
+    "cumbia villera",
 ]
 
 ASIA_GENRES = [
@@ -25,6 +30,11 @@ ASIA_GENRES = [
     "cantopop",
     "indian indie",
     "thai pop",
+    "enka",
+    "j-rock",
+    "qawwali",
+    "pinoy pop",
+    "city pop",
 ]
 
 ALL_GENRES = LATAM_GENRES + ASIA_GENRES

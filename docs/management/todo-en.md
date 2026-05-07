@@ -24,7 +24,7 @@ This document tracks the MVP progress, integrating data engineering, backend ser
 ### 🎯 MVP (Focus on the Hero Table)
 - [X] **Bronze Layer (Raw)**: MusicBrainz ingestion script for raw data storage.
 - [X] **Silver Layer (Normalization)**: Ensure Silver tables are generated with geographic mappings (LatAm vs Asia) ready to feed the Gold layer.
-- [ ] **Gold Layer (Essential)**: Create the `gold.genre_first_appearance` table with columns `genre`, `target_country`, `target_lat`, `target_lon`, and `first_year`, using data cleaned in Silver and a country reference table.
+- [X] **Gold Layer (Essential)**: Create the `gold.genre_first_appearance` table with columns `genre`, `target_country`, `target_lat`, `target_lon`, and `first_year`, using data cleaned in Silver and a country reference table.
 
 ### 📈 Future Increments
 - [ ] **Bronze Layer (Raw)**: Automated ingestion script for new MusicBrainz dumps.

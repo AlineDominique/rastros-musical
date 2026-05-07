@@ -24,14 +24,14 @@ def test_client_has_user_agent(client):
 
 
 def test_search_artists_by_genre_returns_results(client):
-    """Should return artists for a given genre."""
+    """Should return artists sorted by begin date for a given genre."""
     mock_response = {
         "artists": [
             {
                 "id": "artist-1",
-                "name": "Chico Buarque",
+                "name": "Pioneer Artist",
                 "country": "BR",
-                "area": {"name": "Brazil"},
+                "life-span": {"begin": "1917"},
             }
         ],
         "count": 1,
@@ -41,10 +41,16 @@ def test_search_artists_by_genre_returns_results(client):
         mock_get.return_value.json.return_value = mock_response
         mock_get.return_value.raise_for_status = lambda: None
 
-        result = client.search_artists_by_genre("Samba")
+        result = client.search_artists_by_genre("samba")
 
-        assert result == mock_response
-        mock_get.assert_called_once_with(
-            "/artist",
-            params={"query": 'tag:"Samba"', "limit": 100, "offset": 0, "fmt": "json"},
-        )
+    assert result == mock_response
+    mock_get.assert_called_once_with(
+        "/artist",
+        params={
+            "query": 'tag:"samba"',
+            "sort": "begin",
+            "limit": 100,
+            "offset": 0,
+            "fmt": "json",
+        },
+    )

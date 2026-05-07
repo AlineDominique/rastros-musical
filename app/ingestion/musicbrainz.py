@@ -31,21 +31,29 @@ class MusicBrainzClient:
     def search_artists_by_genre(
         self, genre: str, limit: int = 100, offset: int = 0
     ) -> dict[str, Any]:
-        """Search for artists by genre tag.
+        """Search for artists by genre tag, sorted by career start date.
+
+        Uses the MusicBrainz artist search endpoint with a genre tag filter,
+        returning results ordered by the artist's career begin date (oldest
+        first) to prioritize genre pioneers over the most popular artists.
 
         Args:
-            genre: Music genre to search for.
-            limit: Maximum results per page (max 100).
-            offset: Pagination offset.
+            genre: Music genre to search for (e.g., 'samba', 'k-pop').
+            limit: Maximum results per page. Max 100.
+            offset: Pagination offset for fetching subsequent pages.
 
         Returns:
-            JSON response with artists list and count.
+            JSON response with artists list and total count.
+
+        Raises:
+            httpx.HTTPStatusError: If the MusicBrainz API returns an error.
         """
         self._rate_limit()
         response = self._client.get(
             "/artist",
             params={
                 "query": f'tag:"{genre}"',
+                "sort": "begin",
                 "limit": limit,
                 "offset": offset,
                 "fmt": "json",
