@@ -2,11 +2,11 @@
 
 import logging
 
-from app.middleware.logging_config import setup_logging
 from app.db.database import db_manager
-from app.ingestion.musicbrainz import MusicBrainzClient
 from app.ingestion.bronze_loader import BronzeLoader
 from app.ingestion.genres import ALL_GENRES
+from app.ingestion.musicbrainz import MusicBrainzClient
+from app.middleware.logging_config import setup_logging
 
 setup_logging()
 logger = logging.getLogger("rastros-musical.ingestion")
@@ -29,6 +29,7 @@ def _parse_artist(artist: dict) -> dict:
         "longitude": None,
     }
 
+
 def _generate_genre_id(genre_name: str) -> str:
     """Generate a local genre ID from the genre name.
 
@@ -39,6 +40,7 @@ def _generate_genre_id(genre_name: str) -> str:
         Local genre ID string.
     """
     return f"genre-{genre_name.replace(' ', '-').lower()}"
+
 
 def run_ingestion() -> None:
     """Fetch artists by genre from MusicBrainz and load into Bronze."""
@@ -66,12 +68,14 @@ def run_ingestion() -> None:
                     try:
                         artist_data = _parse_artist(artist)
                         loader.insert_artist(artist_data)
-                        loader.insert_artist_genre({
-                            "artist_id": artist_data["artist_id"],
-                            "genre_id": genre_id,
-                            "start_date": artist.get("life-span", {}).get("begin"),
-                            "end_date": artist.get("life-span", {}).get("end"),
-                        })
+                        loader.insert_artist_genre(
+                            {
+                                "artist_id": artist_data["artist_id"],
+                                "genre_id": genre_id,
+                                "start_date": artist.get("life-span", {}).get("begin"),
+                                "end_date": artist.get("life-span", {}).get("end"),
+                            }
+                        )
                         stats["artists_inserted"] += 1
                     except Exception as e:
                         logger.error(

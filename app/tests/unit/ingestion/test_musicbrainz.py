@@ -1,8 +1,10 @@
 """Tests for MusicBrainz API client."""
 
-import pytest
-from app.ingestion.musicbrainz import MusicBrainzClient
 from unittest.mock import patch
+
+import pytest
+
+from app.ingestion.musicbrainz import MusicBrainzClient
 
 
 @pytest.fixture
@@ -19,6 +21,7 @@ def test_client_has_correct_base_url(client):
 def test_client_has_user_agent(client):
     """Should have the provided user agent."""
     assert client.user_agent == "RastrosMusical-Test/0.1"
+
 
 def test_search_artists_by_genre_returns_results(client):
     """Should return artists for a given genre."""

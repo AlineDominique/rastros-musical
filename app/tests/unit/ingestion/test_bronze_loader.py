@@ -2,6 +2,7 @@
 
 import duckdb
 import pytest
+
 from app.ingestion.bronze_loader import BronzeLoader
 
 
@@ -48,7 +49,9 @@ def test_insert_artist(conn):
 
     loader.insert_artist(artist)
 
-    result = conn.execute("SELECT * FROM bronze.artist_raw WHERE artist_id = 1").fetchone()
+    result = conn.execute(
+        "SELECT * FROM bronze.artist_raw WHERE artist_id = 1"
+    ).fetchone()
     assert result[0] == "1"
     assert result[1] == "Chico Buarque"
     assert result[2] == "BR"
@@ -99,10 +102,11 @@ def test_insert_artist_genre(conn):
     }
 
     loader.insert_artist_genre(relation)
-
-    result = conn.execute(
-        "SELECT * FROM bronze.artist_genre_raw WHERE artist_id = 'artist-1' AND genre_id = 'genre-samba'"
-    ).fetchone()
+    sql = (
+        "SELECT * FROM bronze.artist_genre_raw "
+        "WHERE artist_id = 'artist-1' AND genre_id = 'genre-samba'"
+    )
+    result = conn.execute(sql).fetchone()
     assert result[0] == "artist-1"
     assert result[1] == "genre-samba"
     assert result[2] == "1988"

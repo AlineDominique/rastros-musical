@@ -27,7 +27,6 @@ class MusicBrainzClient:
         if elapsed < 1:
             time.sleep(1 - elapsed)
         self._last_request_time = time.time()
-    
 
     def search_artists_by_genre(
         self, genre: str, limit: int = 100, offset: int = 0

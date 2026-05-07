@@ -23,19 +23,21 @@ class BronzeLoader:
             artist: Dictionary with artist_id, name, country_code,
                     and optionally latitude and longitude.
         """
+        sql_insert = """
+            INSERT INTO bronze.artist_raw (
+            artist_id, name, country_code, latitude, longitude)
+            VALUES (?, ?, ?, ?, ?)
+        """
         self.conn.execute(
-                """
-                INSERT INTO bronze.artist_raw (artist_id, name, country_code, latitude, longitude)
-                VALUES (?, ?, ?, ?, ?)
-                """,
-                [
-                    artist["artist_id"],
-                    artist["name"],
-                    artist.get("country_code", ""),
-                    artist.get("latitude"),
-                    artist.get("longitude"),
-                ],
-            )
+            sql_insert,
+            [
+                artist["artist_id"],
+                artist["name"],
+                artist.get("country_code", ""),
+                artist.get("latitude"),
+                artist.get("longitude"),
+            ],
+        )
 
     def insert_genre(self, genre: dict[str, Any]) -> None:
         """Insert a raw genre record.
@@ -43,11 +45,13 @@ class BronzeLoader:
         Args:
             genre: Dictionary with genre_id, name, and optionally parent_genre_id.
         """
-        self.conn.execute(
-            """
-            INSERT INTO bronze.genre_raw (genre_id, name, parent_genre_id)
+        sql_insert = """
+            INSERT INTO bronze.genre_raw (
+            genre_id, name, parent_genre_id)
             VALUES (?, ?, ?)
-            """,
+            """
+        self.conn.execute(
+            sql_insert,
             [
                 genre["genre_id"],
                 genre["name"],
@@ -57,11 +61,13 @@ class BronzeLoader:
 
     def insert_artist_genre(self, relation: dict[str, Any]) -> None:
         """Insert a raw artist-genre relation."""
-        self.conn.execute(
-            """
-            INSERT INTO bronze.artist_genre_raw (artist_id, genre_id, start_date, end_date)
+        sql_insert = """
+            INSERT INTO bronze.artist_genre_raw (
+            artist_id, genre_id, start_date, end_date)
             VALUES (?, ?, ?, ?)
-            """,
+            """
+        self.conn.execute(
+            sql_insert,
             [
                 relation["artist_id"],
                 relation["genre_id"],

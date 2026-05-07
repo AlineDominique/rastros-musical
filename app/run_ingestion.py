@@ -1,8 +1,8 @@
 """Script to run the ingestion pipeline."""
 
+from app.db.database import db_manager
 from app.db.setup import setup_database
 from app.ingestion.ingestion_runner import run_ingestion
-from app.db.database import db_manager
 
 
 def main():

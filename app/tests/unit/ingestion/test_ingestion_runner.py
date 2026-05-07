@@ -15,8 +15,10 @@ def mocks():
     mock_client.search_artists_by_genre.return_value = {"artists": [], "count": 0}
     mock_loader = MagicMock()
 
-    with patch("app.ingestion.ingestion_runner.MusicBrainzClient") as mock_client_class, \
-         patch("app.ingestion.ingestion_runner.BronzeLoader") as mock_loader_class:
+    with (
+        patch("app.ingestion.ingestion_runner.MusicBrainzClient") as mock_client_class,
+        patch("app.ingestion.ingestion_runner.BronzeLoader") as mock_loader_class,
+    ):
         mock_client_class.return_value = mock_client
         mock_loader_class.return_value = mock_loader
 
@@ -25,10 +27,14 @@ def mocks():
 
 # ===== Testes de quantidade de chamadas =====
 
-@pytest.mark.parametrize("method,expected_count", [
-    ("search_artists_by_genre", 21),
-    ("insert_genre", 21),
-])
+
+@pytest.mark.parametrize(
+    "method,expected_count",
+    [
+        ("search_artists_by_genre", 21),
+        ("insert_genre", 21),
+    ],
+)
 def test_run_ingestion_calls_method(mocks, method, expected_count):
     """Should call the expected method for all 21 genres."""
     mock_client, mock_loader = mocks
@@ -57,6 +63,7 @@ def test_run_ingestion_inserts_artists_and_relations(mocks):
 
 # ===== Testes de logging =====
 
+
 def test_run_ingestion_logs_start_and_completion(mocks):
     """Should log start and completion messages."""
     with patch("app.ingestion.ingestion_runner.logger") as mock_logger:
@@ -84,10 +91,13 @@ def test_run_ingestion_logs_artist_count(mocks):
         assert found, "Expected 'Found X artists for genre' log not found"
 
 
-@pytest.mark.parametrize("failure_type", [
-    "artist_insert",
-    "genre_process",
-])
+@pytest.mark.parametrize(
+    "failure_type",
+    [
+        "artist_insert",
+        "genre_process",
+    ],
+)
 def test_run_ingestion_logs_error(mocks, failure_type):
     """Should log error on failures."""
     mock_client, mock_loader = mocks
