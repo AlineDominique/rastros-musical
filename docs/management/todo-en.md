@@ -1,33 +1,76 @@
-# 🚀 Full-Stack Development Roadmap: Musical Traces
+# 🚀 Full-Stack Development Roadmap: Rastros Musical
 
 This document tracks the MVP progress, integrating data engineering, backend services, and geographic visualization within a Monorepo structure.
 
-## 🟢 Phase 1: Foundation & Infrastructure (Docker & Docs) ✅
-- [x] **Governance Documentation**: Review and update ADRs for the Monorepo structure (ADRs 005, 006, 008).
-- [x] **Directory Architecture**: Initialize `/app` (Backend), `/data` (Storage), and `/docs` folders.
-- [x] **Docker Environment**: Create `Dockerfile` (Python 3.13-slim) and `docker-compose.yml` for service orchestration.
-- [x] **Quality Assurance Setup**: Configure Ruff (lint/format), Pytest, and Coverage with strict omission rules in `pyproject.toml`.
-- [x] **CI/CD Pipeline**: Implement GitHub Actions workflow to automate `make check` on every push.
+---
 
-## 🔵 Phase 2: Data Engineering (Medallion Architecture) 🏗️
-- [X] **Pydantic Schemas**: Define data contracts for Artists, Genres, and Locations using Python 3.13 Type Hinting.
-- [X] **Spatial Data Setup**: Enable DuckDB spatial extensions for geographic coordinate support.
-- [ ] **Bronze Layer (Raw)**: Implement MusicBrainz ingestion scripts for raw data storage.
-- [ ] **Silver Layer (Trusted)**: Develop normalization logic and LatAm vs. Asia geographic mapping.
-- [ ] **Gold Layer (Refined)**: Create aggregated analytical tables in DuckDB to power the API.
+## 🟢 Phase 1: Foundation & Infrastructure (Docker & Docs)
+
+### ✅ Completed
+- [X] **Governance Documentation**: Review and update ADRs for the Monorepo structure.
+- [X] **Directory Structure**: Create `/app` (Backend), `/web` (Frontend), `/data`, and `/docs` folders.
+- [X] **Docker Setup**: Create Dockerfile for Backend and docker-compose.yml for orchestration (Python 3.13).
+- [X] **Quality Setup**: Configure Ruff, Pytest, and Coverage with omission rules in pyproject.toml.
+- [X] **CI/CD Pipeline**: Set up GitHub Actions to run the make check pipeline.
+
+---
+
+## 🔵 Phase 2: Data Engineering (Medallion Architecture)
+
+### ✅ Completed
+- [X] **Pydantic Schemas**: Define data contracts for Artists, Genres, and Locations.
+- [X] **Data Setup**: Configure DuckDB spatial extensions for geographic support.
+
+### 🎯 MVP (Focus on the Hero Table)
+- [X] **Bronze Layer (Raw)**: MusicBrainz ingestion script for raw data storage.
+- [ ] **Silver Layer (Normalization)**: Ensure Silver tables are generated with geographic mappings (LatAm vs Asia) ready to feed the Gold layer.
+- [ ] **Gold Layer (Essential)**: Create the `gold.genre_first_appearance` table with columns `genre`, `target_country`, `target_lat`, `target_lon`, and `first_year`, using data cleaned in Silver and a country reference table.
+
+### 📈 Future Increments
+- [ ] **Bronze Layer (Raw)**: Automated ingestion script for new MusicBrainz dumps.
+- [ ] **Gold Layer (Advanced)**: Analytical tables for growth (`gold.genre_growth`), comparative popularity, and temporal aggregations.
+
+---
 
 ## 🟡 Phase 3: Service API (FastAPI)
-- [ ] **Time-Series Endpoints**: Build routes for genre evolution and musical migration trends.
-- [ ] **Database Singleton**: Manage persistent connections to the `.duckdb` file.
-- [ ] **OpenAPI Documentation**: Validate schemas and provide Swagger examples for Frontend consumption.
+
+### 🎯 MVP (Two Essential Endpoints)
+- [ ] **Database Singleton**: Manage persistent connections to the `.db` file.
+- [ ] **Genres Endpoint**: `GET /api/genres` returning the list of unique available genres.
+- [ ] **Propagation Endpoint**: `GET /api/propagation?genre=...&year=...` returning countries where the genre appeared up to the given year (lat, lon, year).
+- [ ] **OpenAPI Documentation**: Write clear Swagger examples for easy frontend consumption.
+
+### 📈 Future Increments
+- [ ] **Time-Series Endpoints**: Routes for detailed evolution (releases per year/country) and migration metrics.
+- [ ] **Data Audit**: Health check that validates table consistency before deployment.
+
+---
 
 ## 🟠 Phase 4: Interface & Visualization (React + Deck.gl)
-- [ ] **Setup do Framework (/web)**: Initialize React project with i18n support (PT/EN/ES) via Docker.
-- [ ] **Deck.gl Integration**: Configure `ArcLayer` and `IconLayer` for dynamic geographic data rendering.
-- [ ] **Time-Slider Component**: Develop UI controls for historical timeline navigation (1970 - 2026).
-- [ ] **Metrics Dashboard**: Create comparison charts for regional popularity and influence.
 
-## 🔴 Phase 5: DevOps & Deployment
-- [ ] **Automated Backend Deploy**: Connect `/app` to Render or Koyeb.
-- [ ] **Automated Frontend Deploy**: Connect `/web` to Vercel or Netlify.
-- [ ] **Data Integrity Audit**: Implement proactive consistency checks before final deployment.
+### 🎯 MVP (Live Map with Minimal Controls)
+- [ ] **Framework Setup (/web)**: Initialize React project (Vite) without initial i18n.
+- [ ] **ScatterplotLayer Map**: Display colored dots representing the first appearance of a genre in each country.
+- [ ] **Genre Dropdown**: Select a genre from the list obtained via the API.
+- [ ] **Time-Slider Component**: Slider (1970–2026) that triggers new API calls on change.
+- [ ] **Simple Tooltip**: Show country and year on hover.
+
+### 📈 Future Increments
+- [ ] **i18n Setup**: Add PT/EN/ES support to UI components.
+- [ ] **ArcLayer / IconLayer Integration**: Show origin/destination flows when source country data is available.
+- [ ] **Metrics Dashboard**: Comparative charts (e.g., regional popularity) below the map.
+- [ ] **Multiple Genres**: Allow selecting more than one genre for visual comparison.
+
+---
+
+## 🔴 Phase 5: DevOps & Automated Deploy (Free)
+
+### 🎯 MVP (Manual Deploy with Public Link)
+- [ ] **Backend Deploy**: Deploy `/app` container to Fly.io.
+- [ ] **Frontend Deploy**: Build and deploy `/web` to Vercel.
+- [ ] **Environment Variables**: Configure API URL in the frontend to point to Fly.io.
+
+### 📈 Future Increments
+- [ ] **Automated Backend Deploy**: Full CI/CD linking the repo to Fly.io via GitHub Actions.
+- [ ] **Automated Frontend Deploy**: Full CI/CD linking the repo to Vercel via GitHub Actions.
+- [ ] **Final Data Audit**: Proactive consistency check executed in the pipeline before each deploy.
