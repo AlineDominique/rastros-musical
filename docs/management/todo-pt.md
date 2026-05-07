@@ -2,32 +2,74 @@
 
 Este documento detalha todas as etapas para o MVP, unindo engenharia de dados, backend e visualização geográfica em um Monorepo.
 
+---
+
 ## 🟢 Fase 1: Fundação e Infraestrutura (Docker & Docs)
+
+### ✅ Concluído
 - [X] **Documentação de Governança**: Revisar se todos os ADRs estão atualizados com a estrutura de Monorepo.
 - [X] **Estruturar Diretórios**: Criar as pastas `/app` (Backend), `/web` (Frontend), `/data` e `/docs`.
 - [X] **Configuração Docker**: Criar Dockerfile para Backend e docker-compose.yml para orquestração (Python 3.13).
 - [X] **Setup de Qualidade**: Configurar Ruff, Pytest e Coverage com regras de omissão no pyproject.toml.
-- [x] **CI/CD Inicial:** Configurar GitHub Actions para rodar o pipeline de make check.
+- [X] **CI/CD Inicial:** Configurar GitHub Actions para rodar o pipeline de make check.
+
+---
 
 ## 🔵 Fase 2: Engenharia de Dados (Arquitetura Medallion)
-- [ ] **Camada Bronze (Raw)**: Implementar script de ingestão do MusicBrainz para armazenamento de dados brutos.
-- [ ] **Camada Silver (Trusted)**: Implementar lógica de normalização e mapeamento geográfico (LatAm vs Ásia) via Python.
-- [ ] **Camada Gold (Refined)**: Criar tabelas analíticas agregadas por ano e região para alimentar a API.
+
+### ✅ Concluído
 - [X] **Schemas Pydantic**: Definir contratos de dados para Artistas, Gêneros e Localização.
 - [X] **Setup de Dados:** Configurar extensões espaciais do DuckDB para suporte geográfico.
 
+### 🎯 MVP (Foco na Tabela de Herói)
+- [ ] **Camada Gold Essencial**: Criar a tabela `gold.genre_first_appearance` com as colunas `genre`, `target_country`, `target_lat`, `target_lon` e `first_year`, usando dados já limpos na Silver e a tabela de referência de países.
+- [ ] **Camada Silver (Normalização)**: Garantir que as tabelas da Silver estejam geradas com os mapeamentos geográficos (LatAm vs Ásia) prontos para alimentar a Gold.
+
+### 📈 Incrementações Futuras
+- [ ] **Camada Bronze (Raw)**: Script de ingestão automatizada de novos dumps do MusicBrainz.
+- [ ] **Camada Gold Avançada**: Tabelas analíticas de crescimento (`gold.genre_growth`), popularidade comparada e agregações temporais.
+
+---
+
 ## 🟡 Fase 3: API de Serviços (FastAPI)
-- [ ] **Endpoints de Séries Temporais**: Criar rotas para retornar a evolução de gêneros e migrações musicais.
+
+### 🎯 MVP (Dois Endpoints Essenciais)
 - [ ] **Singleton de Banco**: Gerenciar conexões persistentes com o arquivo `.db` do DuckDB.
-- [ ] **Documentação OpenAPI**: Validar schemas e exemplos no Swagger para consumo do Frontend.
+- [ ] **Endpoint de Gêneros**: `GET /api/genres` retornando a lista de gêneros únicos disponíveis.
+- [ ] **Endpoint de Propagação**: `GET /api/propagation?genre=...&year=...` retornando os países onde o gênero apareceu até o ano informado (lat, lon, ano).
+- [ ] **Documentação OpenAPI**: Escrever exemplos claros no Swagger para facilitar o consumo pelo frontend.
+
+### 📈 Incrementações Futuras
+- [ ] **Endpoints de Séries Temporais**: Rotas para evolução detalhada (lançamentos por ano/país) e métricas de migração.
+- [ ] **Auditoria de Dados**: Health check que valida consistência das tabelas antes do deploy.
+
+---
 
 ## 🟠 Fase 4: Interface e Visualização (React + Deck.gl)
-- [ ] **Setup do Framework (/web)**: Inicializar projeto React com suporte a i18n (PT/EN/ES) via Docker.
-- [ ] **Integração Deck.gl**: Configurar `ArcLayer` e `IconLayer` para visualização geográfica dinâmica.
-- [ ] **Componente Time-Slider**: Desenvolver controle para navegação pela linha do tempo histórica (1970 - 2026).
-- [ ] **Dashboard de Métricas**: Criar gráficos para comparação de popularidade entre regiões.
+
+### 🎯 MVP (Mapa Vivo com Controles Mínimos)
+- [ ] **Setup do Framework (/web)**: Inicializar projeto React (Vite) sem i18n inicial.
+- [ ] **Mapa com ScatterplotLayer**: Exibir pontos coloridos representando a primeira aparição do gênero nos países.
+- [ ] **Dropdown de Gênero**: Selecionar um gênero da lista obtida da API.
+- [ ] **Componente Time-Slider**: Slider (1970–2026) que dispara novas chamadas à API ao ser alterado.
+- [ ] **Tooltip simples**: Mostrar país e ano ao passar o mouse sobre um ponto.
+
+### 📈 Incrementações Futuras
+- [ ] **Setup i18n**: Adicionar suporte a PT/EN/ES nos componentes da interface.
+- [ ] **Integração ArcLayer / IconLayer**: Mostrar fluxos de origem/destino quando houver dado de país de origem.
+- [ ] **Dashboard de Métricas**: Gráficos comparativos (ex.: popularidade entre regiões) abaixo do mapa.
+- [ ] **Suporte a Múltiplos Gêneros**: Permitir selecionar mais de um gênero para comparação visual.
+
+---
 
 ## 🔴 Fase 5: DevOps e Deploy Automático (Gratuito)
-- [ ] **Deploy Automático Backend**: Vincular pasta `/app` ao Render ou Koyeb.
-- [ ] **Deploy Automático Frontend**: Vincular pasta `/web` à Vercel ou Netlify.
-- [ ] **Auditoria de Dados Final**: Implementar check de consistência proativo antes do deploy.
+
+### 🎯 MVP (Deploy Manual com Link Público)
+- [ ] **Deploy Backend**: Subir container da pasta `/app` no Fly.io.
+- [ ] **Deploy Frontend**: Fazer build e deploy da pasta `/web` na Vercel.
+- [ ] **Variáveis de Ambiente**: Configurar URL da API no frontend para apontar para o Fly.io.
+
+### 📈 Incrementações Futuras
+- [ ] **Deploy Automático Backend**: CI/CD completo vinculando o repositório ao Fly.io via GitHub Actions.
+- [ ] **Deploy Automático Frontend**: CI/CD completo vinculando o repositório à Vercel via GitHub Actions.
+- [ ] **Auditoria de Dados Final**: Check de consistência proativo executado no pipeline antes de cada deploy.
