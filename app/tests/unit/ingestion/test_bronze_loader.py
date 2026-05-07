@@ -1,56 +1,44 @@
 """Tests for bronze layer loading."""
 
-import duckdb
 import pytest
 
 from app.ingestion.bronze_loader import BronzeLoader
 
 
-@pytest.fixture
-def conn():
-    """In-memory DuckDB with bronze schema and tables."""
-    connection = duckdb.connect(":memory:")
-    connection.execute("CREATE SCHEMA IF NOT EXISTS bronze;")
-    connection.execute("""
-        CREATE TABLE IF NOT EXISTS bronze.artist_raw (
-            artist_id VARCHAR,
-            name VARCHAR,
-            country_code VARCHAR(2),
-            latitude DOUBLE,
-            longitude DOUBLE,
+@pytest.fixture(autouse=True)
+def setup_tables(conn):
+    """Create tables needed for bronze loader tests."""
+    conn.execute("""
+        CREATE TABLE bronze.artist_raw (
+            artist_id VARCHAR, name VARCHAR, country_code VARCHAR(2),
+            latitude DOUBLE, longitude DOUBLE,
             ingested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
-    connection.execute("""
-        CREATE TABLE IF NOT EXISTS bronze.genre_raw (
-            genre_id VARCHAR,
-            name VARCHAR,
-            parent_genre_id INTEGER,
+    conn.execute("""
+        CREATE TABLE bronze.genre_raw (
+            genre_id VARCHAR, name VARCHAR, parent_genre_id INTEGER,
             ingested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
-    connection.execute("""
-        CREATE TABLE IF NOT EXISTS bronze.artist_genre_raw (
-            artist_id VARCHAR,
-            genre_id VARCHAR,
-            start_date VARCHAR,
-            end_date VARCHAR,
+    conn.execute("""
+        CREATE TABLE bronze.artist_genre_raw (
+            artist_id VARCHAR, genre_id VARCHAR,
+            start_date VARCHAR, end_date VARCHAR,
             ingested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
-    yield connection
-    connection.close()
 
 
 def test_insert_artist(conn):
     """Should insert a raw artist record."""
     loader = BronzeLoader(conn)
-    artist = {"artist_id": 1, "name": "Chico Buarque", "country_code": "BR"}
+    artist = {"artist_id": "1", "name": "Chico Buarque", "country_code": "BR"}
 
     loader.insert_artist(artist)
 
     result = conn.execute(
-        "SELECT * FROM bronze.artist_raw WHERE artist_id = 1"
+        "SELECT * FROM bronze.artist_raw WHERE artist_id = '1'"
     ).fetchone()
     assert result[0] == "1"
     assert result[1] == "Chico Buarque"
@@ -71,7 +59,7 @@ def test_insert_artist_with_coordinates(conn):
     loader.insert_artist(artist)
 
     result = conn.execute(
-        "SELECT latitude, longitude FROM bronze.artist_raw WHERE artist_id = 2"
+        "SELECT latitude, longitude FROM bronze.artist_raw WHERE artist_id = '2'"
     ).fetchone()
     assert result[0] == -14.235
     assert result[1] == -51.925

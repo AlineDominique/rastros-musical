@@ -23,12 +23,13 @@ Este documento detalha todas as etapas para o MVP, unindo engenharia de dados, b
 
 ### 🎯 MVP (Foco na Tabela de Herói)
 - [X] **Camada Bronze (Raw)**: Script de ingestão de dumps do MusicBrainz.
-- [ ] **Camada Silver (Normalização)**: Garantir que as tabelas da Silver estejam geradas com os mapeamentos geográficos (LatAm vs Ásia) prontos para alimentar a Gold.
+- [X ] **Camada Silver (Normalização)**: Garantir que as tabelas da Silver estejam geradas com os mapeamentos geográficos (LatAm vs Ásia) prontos para alimentar a Gold.
 - [ ] **Camada Gold Essencial**: Criar a tabela `gold.genre_first_appearance` com as colunas `genre`, `target_country`, `target_lat`, `target_lon` e `first_year`, usando dados já limpos na Silver e a tabela de referência de países.
 
 
 ### 📈 Incrementações Futuras
 - [ ] **Camada Bronze (Raw)**: Script de ingestão automatizada de novos dumps do MusicBrainz.
+- [ ] **Camada Silver (Normalização)**: Validação de `country_code` contra ISO 3166-1, normalização de nomes (strip, title case) e deduplicação de artistas com mesmo nome e país.
 - [ ] **Camada Gold Avançada**: Tabelas analíticas de crescimento (`gold.genre_growth`), popularidade comparada e agregações temporais.
 
 ---

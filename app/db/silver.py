@@ -37,7 +37,9 @@ _TABLE_LOCATION = """
     CREATE TABLE IF NOT EXISTS silver.location (
         country_code VARCHAR(2) PRIMARY KEY,
         country_name VARCHAR,
-        region VARCHAR(5)
+        region VARCHAR(5),
+        latitude DOUBLE,
+        longitude DOUBLE
     )
 """
 
