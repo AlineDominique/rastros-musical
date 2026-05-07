@@ -21,13 +21,16 @@ This document tracks the MVP progress, integrating data engineering, backend ser
 - [X] **Pydantic Schemas**: Define data contracts for Artists, Genres, and Locations.
 - [X] **Data Setup**: Configure DuckDB spatial extensions for geographic support.
 
-### 🎯 MVP (Focus on the Hero Table)
-- [X] **Bronze Layer (Raw)**: MusicBrainz ingestion script for raw data storage.
-- [X] **Silver Layer (Normalization)**: Ensure Silver tables are generated with geographic mappings (LatAm vs Asia) ready to feed the Gold layer.
-- [X] **Gold Layer (Essential)**: Create the `gold.genre_first_appearance` table with columns `genre`, `target_country`, `target_lat`, `target_lon`, and `first_year`, using data cleaned in Silver and a country reference table.
+### 🎯 MVP (Multi-Source Data)
+- [ ] **Wikipedia (Origin)**: Manual table with country and year of emergence for each genre.
+- [ ] **Google Trends (Propagation)**: Client to fetch first significant search by country.
+- [ ] **Spotify Charts (Popularity)**: Client to get current popularity by country.
+- [ ] **Silver Layer (Normalization)**: Integrate and clean data from all three sources.
+- [ ] **Essential Gold Layer**: Create `gold.genre_first_appearance` with consolidated data.
 
 ### 📈 Future Increments
-- [ ] **Bronze Layer (Raw)**: Automated ingestion script for new MusicBrainz dumps.
+- [ ] **Ingestion automation**: Periodic updates via GitHub Actions.
+- [ ] **Cross-validation**: Compare data from all three sources for consistency.
 - [ ] **Silver Layer (Normalization)**: `country_code` validation against ISO 3166-1, name normalization (strip, title case), and artist deduplication by name and country.
 - [ ] **Gold Layer (Advanced)**: Analytical tables for growth (`gold.genre_growth`), comparative popularity, and temporal aggregations.
 

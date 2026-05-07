@@ -42,8 +42,44 @@ def _generate_genre_id(genre_name: str) -> str:
     return f"genre-{genre_name.replace(' ', '-').lower()}"
 
 
+def _fetch_all_artists(client: MusicBrainzClient, genre: str) -> list[dict]:
+    """Fetch all artists for a genre using pagination.
+
+    Iterates through all available pages of the MusicBrainz API to collect
+    the complete list of artists associated with a genre, not just the
+    first 100 results.
+
+    Args:
+        client: MusicBrainz client instance.
+        genre: Genre name to search for.
+
+    Returns:
+        Complete list of artist dicts from all pages.
+    """
+    all_artists = []
+    offset = 0
+    limit = 100
+
+    while True:
+        data = client.search_artists_by_genre(genre, limit=limit, offset=offset)
+        artists = data.get("artists", [])
+        all_artists.extend(artists)
+
+        count = data.get("count", 0)
+        offset += limit
+        if offset >= count:
+            break
+
+    return all_artists
+
+
 def run_ingestion() -> None:
-    """Fetch artists by genre from MusicBrainz and load into Bronze."""
+    """Fetch artists by genre from MusicBrainz and load into Bronze.
+
+    Iterates over all MVP genres, fetches the complete list of artists
+    for each one via the MusicBrainz API, and inserts them into the
+    Bronze layer using the BronzeLoader.
+    """
     client = MusicBrainzClient()
     stats = {"genres_processed": 0, "genres_failed": 0, "artists_inserted": 0}
 
@@ -57,14 +93,12 @@ def run_ingestion() -> None:
 
             try:
                 genre_id = _generate_genre_id(genre_name)
-
                 loader.insert_genre({"genre_id": genre_id, "name": genre_name})
 
-                data = client.search_artists_by_genre(genre_name)
-                artist_count = data.get("count", 0)
-                logger.info("Found %d artists for genre: %s", artist_count, genre_name)
+                artists = _fetch_all_artists(client, genre_name)
+                logger.info("Found %d artists for genre: %s", len(artists), genre_name)
 
-                for artist in data.get("artists", []):
+                for artist in artists:
                     try:
                         artist_data = _parse_artist(artist)
                         loader.insert_artist(artist_data)
