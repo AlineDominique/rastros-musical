@@ -23,13 +23,12 @@ class BronzeLoader:
             artist: Dictionary with artist_id, name, country_code,
                     and optionally latitude and longitude.
         """
-        sql_insert = """
-            INSERT INTO bronze.artist_raw (
+        self.conn.execute(
+            """
+            INSERT OR IGNORE INTO bronze.artist_raw (
             artist_id, name, country_code, latitude, longitude)
             VALUES (?, ?, ?, ?, ?)
-        """
-        self.conn.execute(
-            sql_insert,
+            """,
             [
                 artist["artist_id"],
                 artist["name"],
@@ -45,29 +44,23 @@ class BronzeLoader:
         Args:
             genre: Dictionary with genre_id, name, and optionally parent_genre_id.
         """
-        sql_insert = """
-            INSERT INTO bronze.genre_raw (
+        self.conn.execute(
+            """
+            INSERT OR IGNORE INTO bronze.genre_raw (
             genre_id, name, parent_genre_id)
             VALUES (?, ?, ?)
-            """
-        self.conn.execute(
-            sql_insert,
-            [
-                genre["genre_id"],
-                genre["name"],
-                genre.get("parent_genre_id"),
-            ],
+            """,
+            [genre["genre_id"], genre["name"], genre.get("parent_genre_id")],
         )
 
     def insert_artist_genre(self, relation: dict[str, Any]) -> None:
         """Insert a raw artist-genre relation."""
-        sql_insert = """
-            INSERT INTO bronze.artist_genre_raw (
-            artist_id, genre_id, start_date, end_date)
-            VALUES (?, ?, ?, ?)
-            """
         self.conn.execute(
-            sql_insert,
+            """
+        INSERT OR IGNORE INTO bronze.artist_genre_raw (
+        artist_id, genre_id, start_date, end_date)
+        VALUES (?, ?, ?, ?)
+        """,
             [
                 relation["artist_id"],
                 relation["genre_id"],

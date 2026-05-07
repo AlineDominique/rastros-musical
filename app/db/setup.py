@@ -4,16 +4,16 @@ import duckdb
 
 from app.db.bronze import create_bronze_tables
 from app.db.database import db_manager
+from app.db.seed_location import seed_location
 from app.db.silver import create_silver_tables
+from app.ingestion.gold_loader import GoldLoader
+from app.ingestion.silver_loader import SilverLoader
 
 _SCHEMAS = ("bronze", "silver", "gold")
 
 
 def setup_all() -> None:
     """Run full database setup: schemas, tables, and country seed data."""
-    from app.db.database import db_manager
-    from app.db.seed_location import seed_location
-
     with db_manager.get_connection() as conn:
         setup_database(conn)
         seed_location(conn)
@@ -50,15 +50,10 @@ def _create_tables(conn: duckdb.DuckDBPyConnection) -> None:
 
 def load_all() -> None:
     """Run complete ETL pipeline: Silver and Gold layers."""
-    from app.db.database import db_manager
-    from app.ingestion.gold_loader import GoldLoader
-    from app.ingestion.silver_loader import SilverLoader
-
     with db_manager.get_connection() as conn:
         conn.execute("DELETE FROM silver.artist_genre")
         conn.execute("DELETE FROM silver.artist")
         conn.execute("DELETE FROM silver.genre")
-        conn.execute("DELETE FROM gold.genre_first_appearance")
 
         print("Loading Silver...")
         silver = SilverLoader(conn)

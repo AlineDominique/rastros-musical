@@ -10,22 +10,30 @@ def setup_tables(conn):
     """Create tables needed for bronze loader tests."""
     conn.execute("""
         CREATE TABLE bronze.artist_raw (
-            artist_id VARCHAR, name VARCHAR, country_code VARCHAR(2),
-            latitude DOUBLE, longitude DOUBLE,
+            artist_id VARCHAR PRIMARY KEY,
+            name VARCHAR,
+            country_code VARCHAR(2),
+            latitude DOUBLE,
+            longitude DOUBLE,
             ingested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
     conn.execute("""
         CREATE TABLE bronze.genre_raw (
-            genre_id VARCHAR, name VARCHAR, parent_genre_id INTEGER,
+            genre_id VARCHAR PRIMARY KEY,
+            name VARCHAR,
+            parent_genre_id INTEGER,
             ingested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
     conn.execute("""
         CREATE TABLE bronze.artist_genre_raw (
-            artist_id VARCHAR, genre_id VARCHAR,
-            start_date VARCHAR, end_date VARCHAR,
-            ingested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            artist_id VARCHAR,
+            genre_id VARCHAR,
+            start_date VARCHAR,
+            end_date VARCHAR,
+            ingested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY (artist_id, genre_id)
         )
     """)
 
@@ -99,3 +107,46 @@ def test_insert_artist_genre(conn):
     assert result[1] == "genre-samba"
     assert result[2] == "1988"
     assert result[3] is None
+
+
+def test_insert_artist_ignores_duplicate(conn):
+    """Should ignore duplicate artist IDs."""
+    loader = BronzeLoader(conn)
+    artist = {"artist_id": "1", "name": "Chico Buarque", "country_code": "BR"}
+
+    loader.insert_artist(artist)
+    loader.insert_artist(artist)  # duplicata
+
+    count = conn.execute(
+        "SELECT COUNT(*) FROM bronze.artist_raw WHERE artist_id = '1'"
+    ).fetchone()[0]
+    assert count == 1
+
+
+def test_insert_genre_ignores_duplicate(conn):
+    """Should ignore duplicate genre IDs."""
+    loader = BronzeLoader(conn)
+    genre = {"genre_id": "genre-samba", "name": "Samba"}
+
+    loader.insert_genre(genre)
+    loader.insert_genre(genre)
+
+    count = conn.execute(
+        "SELECT COUNT(*) FROM bronze.genre_raw WHERE genre_id = 'genre-samba'"
+    ).fetchone()[0]
+    assert count == 1
+
+
+def test_insert_artist_genre_ignores_duplicate(conn):
+    """Should ignore duplicate artist-genre relations."""
+    loader = BronzeLoader(conn)
+    relation = {"artist_id": "1", "genre_id": "genre-samba", "start_date": "1988"}
+
+    loader.insert_artist_genre(relation)
+    loader.insert_artist_genre(relation)
+
+    count = conn.execute(
+        "SELECT COUNT(*) FROM bronze.artist_genre_raw "
+        "WHERE artist_id = '1' AND genre_id = 'genre-samba'"
+    ).fetchone()[0]
+    assert count == 1
