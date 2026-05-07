@@ -9,6 +9,17 @@ from app.db.silver import create_silver_tables
 _SCHEMAS = ("bronze", "silver", "gold")
 
 
+def setup_all() -> None:
+    """Run full database setup: schemas, tables, and country seed data."""
+    from app.db.database import db_manager
+    from app.db.seed_location import seed_location
+
+    with db_manager.get_connection() as conn:
+        setup_database(conn)
+        seed_location(conn)
+        print("Database setup complete.")
+
+
 def setup_database(conn: duckdb.DuckDBPyConnection = None) -> None:
     """Initialize the database with all schemas and tables.
 
@@ -35,3 +46,34 @@ def _create_tables(conn: duckdb.DuckDBPyConnection) -> None:
     """Create all tables across layers."""
     create_bronze_tables(conn)
     create_silver_tables(conn)
+
+
+def load_all() -> None:
+    """Run complete ETL pipeline: Silver and Gold layers."""
+    from app.db.database import db_manager
+    from app.ingestion.gold_loader import GoldLoader
+    from app.ingestion.silver_loader import SilverLoader
+
+    with db_manager.get_connection() as conn:
+        conn.execute("DELETE FROM silver.artist_genre")
+        conn.execute("DELETE FROM silver.artist")
+        conn.execute("DELETE FROM silver.genre")
+        conn.execute("DELETE FROM gold.genre_first_appearance")
+
+        print("Loading Silver...")
+        silver = SilverLoader(conn)
+        silver.load_artists()
+        silver.load_genres()
+        silver.load_artist_genres()
+
+        artists = conn.execute("SELECT COUNT(*) FROM silver.artist").fetchone()[0]
+        print(f"Silver artists: {artists}")
+
+        print("Loading Gold...")
+        gold = GoldLoader(conn)
+        gold.load_genre_first_appearance()
+
+        records = conn.execute(
+            "SELECT COUNT(*) FROM gold.genre_first_appearance"
+        ).fetchone()[0]
+        print(f"Gold records: {records}")

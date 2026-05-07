@@ -34,20 +34,21 @@ clean:
 	find . -type d -name ".ruff_cache" -exec rm -rf {} +
 	rm -rf htmlcov .coverage coverage.xml
 
-
 # ===== Database Setup =====
 
 DB_SETUP:
-	$(DOCKER_EXEC) uv run python -c "from app.db.database import db_manager; from app.db.setup import setup_database; from app.db.seed_location import seed_location; with db_manager.get_connection() as conn: setup_database(conn); seed_location(conn); print('Database setup complete.')"
+	$(DOCKER_EXEC) uv run python -c "from app.db.setup import setup_all; setup_all()"
 
 DB_SEED:
 	$(DOCKER_EXEC) uv run python -c "from app.db.database import db_manager; from app.db.seed_location import seed_location; with db_manager.get_connection() as conn: seed_location(conn); print('Countries seeded.')"
 
 INGEST:
-	$(DOCKER_EXEC) uv run python -m app.run_ingestion
+	$(DOCKER_EXEC) uv run python -c "from app.ingestion.ingestion_runner import run_ingestion; run_ingestion()"
 
+DB_LOAD:
+	$(DOCKER_EXEC) uv run python -c "from app.db.setup import load_all; load_all()"
 
-# ===== Database Diagnostics (read-only, safe) =====
+# ===== Database Diagnostics (read-only) =====
 
 DB_STATS:
 	$(DOCKER_EXEC) uv run python -m app.db.diagnostics stats
@@ -60,3 +61,6 @@ DB_TOP_GENRES:
 
 DB_SAMPLE_ARTISTS:
 	$(DOCKER_EXEC) uv run python -m app.db.diagnostics sample
+
+DB_GOLD_SAMPLE:
+	$(DOCKER_EXEC) uv run python -m app.db.diagnostics gold

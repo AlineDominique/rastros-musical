@@ -45,7 +45,7 @@ class SilverLoader:
             INSERT INTO silver.artist (
                           artist_id, name, country_code,
                           latitude, longitude, region)
-            SELECT
+            SELECT DISTINCT
                 b.artist_id,
                 b.name,
                 b.country_code,
@@ -63,7 +63,7 @@ class SilverLoader:
         """Load genres from bronze to silver."""
         self.conn.execute("""
             INSERT INTO silver.genre (genre_id, name, parent_genre_id)
-            SELECT genre_id, name, parent_genre_id
+            SELECT DISTINCT genre_id, name, parent_genre_id
             FROM bronze.genre_raw
             WHERE genre_id NOT IN (SELECT genre_id FROM silver.genre)
         """)
@@ -74,7 +74,7 @@ class SilverLoader:
         """Load artist-genre relations with normalized dates."""
         self.conn.execute("""
             INSERT INTO silver.artist_genre (artist_id, genre_id, start_date, end_date)
-            SELECT
+            SELECT DISTINCT
                 b.artist_id,
                 b.genre_id,
                 CASE
