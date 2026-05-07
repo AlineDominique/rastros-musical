@@ -4,7 +4,7 @@ import duckdb
 
 _TABLE_ARTIST_RAW = """
     CREATE TABLE IF NOT EXISTS bronze.artist_raw (
-        artist_id INTEGER,
+        artist_id VARCHAR,
         name VARCHAR,
         country_code VARCHAR(2),
         latitude DOUBLE,
@@ -15,7 +15,7 @@ _TABLE_ARTIST_RAW = """
 
 _TABLE_GENRE_RAW = """
     CREATE TABLE IF NOT EXISTS bronze.genre_raw (
-        genre_id INTEGER,
+        genre_id VARCHAR,
         name VARCHAR,
         parent_genre_id INTEGER,
         ingested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -24,10 +24,10 @@ _TABLE_GENRE_RAW = """
 
 _TABLE_ARTIST_GENRE_RAW = """
     CREATE TABLE IF NOT EXISTS bronze.artist_genre_raw (
-        artist_id INTEGER,
-        genre_id INTEGER,
-        start_date DATE,
-        end_date DATE,
+        artist_id VARCHAR,
+        genre_id VARCHAR,
+        start_date VARCHAR,
+        end_date VARCHAR,
         ingested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
 """

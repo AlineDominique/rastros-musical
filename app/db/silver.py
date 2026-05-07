@@ -4,7 +4,7 @@ import duckdb
 
 _TABLE_ARTIST = """
     CREATE TABLE IF NOT EXISTS silver.artist (
-        artist_id INTEGER PRIMARY KEY,
+        artist_id VARCHAR PRIMARY KEY,
         name VARCHAR NOT NULL,
         country_code VARCHAR(2),
         latitude DOUBLE,
@@ -16,7 +16,7 @@ _TABLE_ARTIST = """
 
 _TABLE_GENRE = """
     CREATE TABLE IF NOT EXISTS silver.genre (
-        genre_id INTEGER PRIMARY KEY,
+        genre_id VARCHAR PRIMARY KEY,
         name VARCHAR NOT NULL,
         parent_genre_id INTEGER,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -25,8 +25,8 @@ _TABLE_GENRE = """
 
 _TABLE_ARTIST_GENRE = """
     CREATE TABLE IF NOT EXISTS silver.artist_genre (
-        artist_id INTEGER,
-        genre_id INTEGER,
+        artist_id VARCHAR,
+        genre_id VARCHAR,
         start_date DATE,
         end_date DATE,
         PRIMARY KEY (artist_id, genre_id)
