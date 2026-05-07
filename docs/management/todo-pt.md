@@ -22,11 +22,12 @@ Este documento detalha todas as etapas para o MVP, unindo engenharia de dados, b
 - [X] **Setup de Dados:** Configurar extensões espaciais do DuckDB para suporte geográfico.
 
 ### 🎯 MVP (Foco na Tabela de Herói)
-- [ ] **Camada Gold Essencial**: Criar a tabela `gold.genre_first_appearance` com as colunas `genre`, `target_country`, `target_lat`, `target_lon` e `first_year`, usando dados já limpos na Silver e a tabela de referência de países.
+- [ ] **Camada Bronze (Raw)**: Script de ingestão automatizada de novos dumps do MusicBrainz.
 - [ ] **Camada Silver (Normalização)**: Garantir que as tabelas da Silver estejam geradas com os mapeamentos geográficos (LatAm vs Ásia) prontos para alimentar a Gold.
+- [ ] **Camada Gold Essencial**: Criar a tabela `gold.genre_first_appearance` com as colunas `genre`, `target_country`, `target_lat`, `target_lon` e `first_year`, usando dados já limpos na Silver e a tabela de referência de países.
+
 
 ### 📈 Incrementações Futuras
-- [ ] **Camada Bronze (Raw)**: Script de ingestão automatizada de novos dumps do MusicBrainz.
 - [ ] **Camada Gold Avançada**: Tabelas analíticas de crescimento (`gold.genre_growth`), popularidade comparada e agregações temporais.
 
 ---
