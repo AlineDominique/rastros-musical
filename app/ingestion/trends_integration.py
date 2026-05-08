@@ -1,8 +1,14 @@
 """Integration between Google Trends data and the Medallion pipeline."""
 
+import logging
+
 from pandas import DataFrame
 
 from app.ingestion.google_trends import GoogleTrendsClient
+from app.middleware.logging_config import setup_logging
+
+setup_logging()
+logger = logging.getLogger("rastros-musical.ingestion")
 
 
 def find_first_significant_year(df: DataFrame, threshold: int = 10) -> int | None:
@@ -51,7 +57,10 @@ def build_propagation_data(genre: str, country_codes: list[str]) -> list[dict]:
                         "first_year": first_year,
                     }
                 )
-        except Exception:
+        except Exception as e:
+            logger.warning(
+                "Failed to fetch trends for %s in %s: %s", genre, country_code, e
+            )
             continue
 
     return results

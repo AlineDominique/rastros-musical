@@ -28,8 +28,9 @@ This document tracks the MVP progress, integrating data engineering, backend ser
 - [X] **Essential Gold Layer**: Create `gold.genre_first_appearance` with consolidated data.
 
 ### 📈 Future Increments
+- [ ] **Propagation Enrichment**: Add complementary sources (Spotify Charts, Discogs, Wikipedia) to fill temporal gaps between origin and Google Trends (pre-2004).
 - [ ] **Ingestion automation**: Periodic updates via GitHub Actions.
-- [ ] **Cross-validation**: Compare data from all three sources for consistency.
+- [ ] **Cross-validation**: Compare data from all sources for consistency.
 - [ ] **Spotify Charts (Popularity)**: Client to get current popularity by country.
 - [ ] **Silver Layer (Normalization)**: `country_code` validation against ISO 3166-1, name normalization (strip, title case), and artist deduplication by name and country.
 - [ ] **Gold Layer (Advanced)**: Analytical tables for growth (`gold.genre_growth`), comparative popularity, and temporal aggregations.

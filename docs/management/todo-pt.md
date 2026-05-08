@@ -29,6 +29,7 @@ Este documento detalha todas as etapas para o MVP, unindo engenharia de dados, b
 
 
 ### 📈 Incrementações Futuras
+- [ ] **Enriquecimento de Propagação**: Adicionar fontes complementares (Spotify Charts, Discogs, Wikipedia) para preencher lacunas temporais entre origem e Google Trends (pré-2004).
 - [ ] **Automação da ingestão**: Atualização periódica via GitHub Actions.
 - [ ] **Validação cruzada**: Confrontar dados das três fontes para garantir consistência.
 - [ ] **Spotify Charts (Popularidade)**: Cliente para obter popularidade atual por país.

@@ -1,5 +1,7 @@
 """Tests for silver layer loading."""
 
+from unittest.mock import patch
+
 import pytest
 
 from app.ingestion.silver_loader import SilverLoader, normalize_date
@@ -137,3 +139,35 @@ def test_load_artist_genres(conn):
     assert result[0] == "artist-1"
     assert result[1] == "genre-samba"
     assert str(result[2]) == "1970-01-01"
+
+
+def test_load_genre_propagation(conn):
+    """Should load genre propagation data from Google Trends."""
+    conn.execute(
+        "INSERT INTO silver.location VALUES ('BR', 'Brazil', 'Latam', -10.0, -55.0)"
+    )
+    conn.execute("""
+        CREATE TABLE silver.genre_propagation (
+            genre VARCHAR NOT NULL,
+            country_code VARCHAR(2) NOT NULL,
+            first_year INTEGER,
+            PRIMARY KEY (genre, country_code)
+        )
+    """)
+
+    with patch("app.ingestion.silver_loader.build_propagation_data") as mock_build:
+        mock_build.return_value = [
+            {"genre": "samba", "country_code": "BR", "first_year": 2006},
+            {"genre": "samba", "country_code": "JP", "first_year": 2010},
+        ]
+
+        loader = SilverLoader(conn)
+        loader.load_genre_propagation(["BR", "JP"])
+
+    results = conn.execute(
+        "SELECT * FROM silver.genre_propagation ORDER BY first_year"
+    ).fetchall()
+    assert len(results) == 2
+    assert results[0][0] == "samba"
+    assert results[0][1] == "BR"
+    assert results[0][2] == 2006

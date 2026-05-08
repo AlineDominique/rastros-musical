@@ -81,6 +81,7 @@ def load_all() -> None:
         logger.info("Loading Gold...")
         gold = GoldLoader(conn)
         gold.load_genre_first_appearance()
+        gold.load_genre_propagation()
 
         records = conn.execute(
             "SELECT COUNT(*) FROM gold.genre_first_appearance"

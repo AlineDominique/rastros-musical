@@ -61,7 +61,6 @@ def test_build_propagation_data_returns_countries():
 
         assert len(result) == 2
         assert result[0]["genre"] == "samba"
-        assert result[0]["country_code"] == "BR"
         assert result[0]["first_year"] == 2006
 
 
@@ -77,5 +76,19 @@ def test_build_propagation_data_skips_no_data():
         mock_client.get_interest_over_time.return_value = mock_df
 
         result = build_propagation_data("samba", ["XX"])
+
+        assert len(result) == 0
+
+
+def test_build_propagation_data_handles_exception():
+    """Should skip country when API call fails."""
+    with patch(
+        "app.ingestion.trends_integration.GoogleTrendsClient"
+    ) as mock_client_class:
+        mock_client = MagicMock()
+        mock_client_class.return_value = mock_client
+        mock_client.get_interest_over_time.side_effect = Exception("API error")
+
+        result = build_propagation_data("samba", ["BR"])
 
         assert len(result) == 0

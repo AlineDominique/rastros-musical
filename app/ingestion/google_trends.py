@@ -1,5 +1,7 @@
 """Google Trends client for tracking genre search interest over time."""
 
+import time
+
 from pandas import DataFrame
 from pytrends.request import TrendReq
 
@@ -26,6 +28,7 @@ class GoogleTrendsClient:
         Returns:
             Pandas DataFrame with interest values indexed by date.
         """
+        time.sleep(2)
         self._client.build_payload(
             kw_list=keywords,
             geo=geo,
