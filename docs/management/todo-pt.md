@@ -24,7 +24,6 @@ Este documento detalha todas as etapas para o MVP, unindo engenharia de dados, b
 ### 🎯 MVP (Múltiplas Fontes de Dados)
 - [X] **Wikipedia (Origem)**: Tabela manual com país e ano de surgimento de cada gênero.
 - [X] **Google Trends (Propagação)**: Cliente para buscar primeira busca significativa por país.
-- [ ] **Spotify Charts (Popularidade)**: Cliente para obter popularidade atual por país.
 - [ ] **Camada Silver (Normalização)**: Integrar e limpar dados das três fontes.
 - [ ] **Camada Gold Essencial**: Criar `gold.genre_first_appearance` com dados consolidados.
 
@@ -32,6 +31,7 @@ Este documento detalha todas as etapas para o MVP, unindo engenharia de dados, b
 ### 📈 Incrementações Futuras
 - [ ] **Automação da ingestão**: Atualização periódica via GitHub Actions.
 - [ ] **Validação cruzada**: Confrontar dados das três fontes para garantir consistência.
+- [ ] **Spotify Charts (Popularidade)**: Cliente para obter popularidade atual por país.
 - [ ] **Camada Silver (Normalização)**: Validação de `country_code` contra ISO 3166-1, normalização de nomes (strip, title case) e deduplicação de artistas com mesmo nome e país.
 - [ ] **Camada Gold Avançada**: Tabelas analíticas de crescimento (`gold.genre_growth`), popularidade comparada e agregações temporais.
 
