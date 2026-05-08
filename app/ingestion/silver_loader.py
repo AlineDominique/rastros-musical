@@ -4,6 +4,8 @@ import logging
 
 import duckdb
 
+from app.ingestion.genres import ASIA_GENRES, LATAM_GENRES
+from app.ingestion.trends_integration import build_propagation_data
 from app.middleware.logging_config import setup_logging
 
 setup_logging()
@@ -96,3 +98,25 @@ class SilverLoader:
             "SELECT COUNT(*) FROM silver.artist_genre"
         ).fetchone()[0]
         logger.info("Artist-genre relations loaded. Total in Silver: %d", count)
+
+    def load_genre_propagation(self, country_codes: list[str]) -> None:
+        """Load genre propagation data from Google Trends."""
+        total = len(LATAM_GENRES + ASIA_GENRES)
+        for i, genre_name in enumerate(LATAM_GENRES + ASIA_GENRES, 1):
+            logger.info("[%d/%d] Fetching trends for: %s", i, total, genre_name)
+            data = build_propagation_data(genre_name, country_codes)
+
+            for record in data:
+                self.conn.execute(
+                    """
+                    INSERT OR REPLACE INTO silver.genre_propagation
+                        (genre, country_code, first_year)
+                    VALUES (?, ?, ?)
+                    """,
+                    [record["genre"], record["country_code"], record["first_year"]],
+                )
+
+        count = self.conn.execute(
+            "SELECT COUNT(*) FROM silver.genre_propagation"
+        ).fetchone()[0]
+        logger.info("Propagation records loaded: %d", count)

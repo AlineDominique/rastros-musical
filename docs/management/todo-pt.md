@@ -24,8 +24,8 @@ Este documento detalha todas as etapas para o MVP, unindo engenharia de dados, b
 ### 🎯 MVP (Múltiplas Fontes de Dados)
 - [X] **Wikipedia (Origem)**: Tabela manual com país e ano de surgimento de cada gênero.
 - [X] **Google Trends (Propagação)**: Cliente para buscar primeira busca significativa por país.
-- [ ] **Camada Silver (Normalização)**: Integrar e limpar dados das três fontes.
-- [ ] **Camada Gold Essencial**: Criar `gold.genre_first_appearance` com dados consolidados.
+- [X] **Camada Silver (Normalização)**: Integrar e limpar dados das três fontes.
+- [X] **Camada Gold Essencial**: Criar `gold.genre_first_appearance` com dados consolidados.
 
 
 ### 📈 Incrementações Futuras

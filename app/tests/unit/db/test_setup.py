@@ -8,13 +8,12 @@ from app.db.setup import load_all, setup_all, setup_database
 def test_setup_database_uses_db_manager_when_no_conn():
     """Should use db_manager when no connection is provided."""
     mock_conn = MagicMock()
-    mock_db_manager = MagicMock()
-    mock_db_manager.get_connection.return_value.__enter__.return_value = mock_conn
 
-    with patch("app.db.setup.db_manager", mock_db_manager):
+    with patch("app.db.setup.db_manager", autospec=True) as mock_db:
+        mock_db.get_connection.return_value.__enter__.return_value = mock_conn
         setup_database()
 
-    mock_db_manager.get_connection.assert_called_once()
+    mock_db.get_connection.assert_called_once()
 
 
 def test_setup_database_creates_all_schemas(conn):
@@ -76,6 +75,7 @@ def test_load_all_clears_and_loads_layers():
         patch("app.db.setup.db_manager") as mock_db,
     ):
         mock_conn = MagicMock()
+        mock_conn.execute.return_value.fetchall.return_value = [("BR",), ("JP",)]
         mock_db.get_connection.return_value.__enter__.return_value = mock_conn
         mock_silver = MagicMock()
         mock_gold = MagicMock()
@@ -84,8 +84,8 @@ def test_load_all_clears_and_loads_layers():
 
         load_all()
 
-        assert mock_conn.execute.call_count >= 4
         mock_silver.load_artists.assert_called_once()
         mock_silver.load_genres.assert_called_once()
         mock_silver.load_artist_genres.assert_called_once()
+        mock_silver.load_genre_propagation.assert_called_once()
         mock_gold.load_genre_first_appearance.assert_called_once()

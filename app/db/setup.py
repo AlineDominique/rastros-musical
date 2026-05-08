@@ -1,5 +1,7 @@
 """Database setup — creates all schemas and tables."""
 
+import logging
+
 import duckdb
 
 from app.db.bronze import create_bronze_tables
@@ -8,6 +10,10 @@ from app.db.seed_location import seed_location
 from app.db.silver import create_silver_tables
 from app.ingestion.gold_loader import GoldLoader
 from app.ingestion.silver_loader import SilverLoader
+from app.middleware.logging_config import setup_logging
+
+setup_logging()
+logger = logging.getLogger("rastros-musical.setup")
 
 _SCHEMAS = ("bronze", "silver", "gold")
 
@@ -17,7 +23,7 @@ def setup_all() -> None:
     with db_manager.get_connection() as conn:
         setup_database(conn)
         seed_location(conn)
-        print("Database setup complete.")
+        logger.info("Database setup complete.")
 
 
 def setup_database(conn: duckdb.DuckDBPyConnection = None) -> None:
@@ -49,26 +55,34 @@ def _create_tables(conn: duckdb.DuckDBPyConnection) -> None:
 
 
 def load_all() -> None:
-    """Run complete ETL pipeline: Silver and Gold layers."""
+    """Run complete ETL pipeline: Silver and Gold layers.
+
+    Loads curated genre origins from Bronze into Silver, fetches
+    Google Trends propagation data for all genre-country pairs,
+    and generates the Gold layer with consolidated first appearances.
+    """
     with db_manager.get_connection() as conn:
+        logger.info("Clearing Silver and Gold layers...")
         conn.execute("DELETE FROM silver.artist_genre")
         conn.execute("DELETE FROM silver.artist")
         conn.execute("DELETE FROM silver.genre")
+        conn.execute("DELETE FROM silver.genre_propagation")
 
-        print("Loading Silver...")
+        logger.info("Loading Silver...")
         silver = SilverLoader(conn)
         silver.load_artists()
         silver.load_genres()
         silver.load_artist_genres()
 
-        artists = conn.execute("SELECT COUNT(*) FROM silver.artist").fetchone()[0]
-        print(f"Silver artists: {artists}")
+        countries = conn.execute("SELECT country_code FROM silver.location").fetchall()
+        country_codes = [c[0] for c in countries]
+        silver.load_genre_propagation(country_codes)
 
-        print("Loading Gold...")
+        logger.info("Loading Gold...")
         gold = GoldLoader(conn)
         gold.load_genre_first_appearance()
 
         records = conn.execute(
             "SELECT COUNT(*) FROM gold.genre_first_appearance"
         ).fetchone()[0]
-        print(f"Gold records: {records}")
+        logger.info("Gold records: %d", records)

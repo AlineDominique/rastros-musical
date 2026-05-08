@@ -42,6 +42,14 @@ _TABLE_LOCATION = """
         longitude DOUBLE
     )
 """
+_TABLE_GENRE_PROPAGATION = """
+    CREATE TABLE IF NOT EXISTS silver.genre_propagation (
+        genre VARCHAR NOT NULL,
+        country_code VARCHAR(2) NOT NULL,
+        first_year INTEGER,
+        PRIMARY KEY (genre, country_code)
+    )
+"""
 
 
 def create_silver_tables(conn: duckdb.DuckDBPyConnection) -> None:
@@ -50,5 +58,11 @@ def create_silver_tables(conn: duckdb.DuckDBPyConnection) -> None:
     Args:
         conn: DuckDB connection.
     """
-    for sql in (_TABLE_ARTIST, _TABLE_GENRE, _TABLE_ARTIST_GENRE, _TABLE_LOCATION):
+    for sql in (
+        _TABLE_ARTIST,
+        _TABLE_GENRE,
+        _TABLE_ARTIST_GENRE,
+        _TABLE_LOCATION,
+        _TABLE_GENRE_PROPAGATION,
+    ):
         conn.execute(sql)

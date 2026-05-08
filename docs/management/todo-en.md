@@ -24,8 +24,8 @@ This document tracks the MVP progress, integrating data engineering, backend ser
 ### 🎯 MVP (Multi-Source Data)
 - [X] **Wikipedia (Origin)**: Manual table with country and year of emergence for each genre.
 - [X] **Google Trends (Propagation)**: Client to fetch first significant search by country.
-- [ ] **Silver Layer (Normalization)**: Integrate and clean data from all three sources.
-- [ ] **Essential Gold Layer**: Create `gold.genre_first_appearance` with consolidated data.
+- [X] **Silver Layer (Normalization)**: Integrate and clean data from all three sources.
+- [X] **Essential Gold Layer**: Create `gold.genre_first_appearance` with consolidated data.
 
 ### 📈 Future Increments
 - [ ] **Ingestion automation**: Periodic updates via GitHub Actions.
