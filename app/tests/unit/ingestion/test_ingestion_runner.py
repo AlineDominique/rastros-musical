@@ -9,59 +9,45 @@ from app.ingestion.ingestion_runner import run_ingestion
 
 @pytest.fixture
 def mocks():
-    """Setup mocked MusicBrainzClient and BronzeLoader."""
-    mock_client = MagicMock()
-    mock_client.get_genre_id.return_value = "genre-id-123"
-    mock_client.search_artists_by_genre.return_value = {"artists": [], "count": 0}
+    """Setup mocked BronzeLoader and database."""
     mock_loader = MagicMock()
 
     with (
-        patch("app.ingestion.ingestion_runner.MusicBrainzClient") as mock_client_class,
         patch("app.ingestion.ingestion_runner.BronzeLoader") as mock_loader_class,
+        patch("app.ingestion.ingestion_runner.db_manager") as mock_db,
     ):
-        mock_client_class.return_value = mock_client
+        mock_conn = MagicMock()
+        mock_db.get_connection.return_value.__enter__.return_value = mock_conn
         mock_loader_class.return_value = mock_loader
 
-        yield mock_client, mock_loader
+        yield mock_loader
 
 
-# ===== Testes de quantidade de chamadas =====
-
-
-@pytest.mark.parametrize(
-    "method,expected_count",
-    [
-        ("search_artists_by_genre", 31),
-        ("insert_genre", 31),
-    ],
-)
-def test_run_ingestion_calls_method(mocks, method, expected_count):
-    """Should call the expected method for all 21 genres."""
-    mock_client, mock_loader = mocks
+def test_run_ingestion_inserts_all_genres(mocks):
+    """Should insert all 20 genres."""
+    mock_loader = mocks
 
     run_ingestion()
 
-    if method.startswith("insert"):
-        assert getattr(mock_loader, method).call_count == expected_count
-    else:
-        assert getattr(mock_client, method).call_count == expected_count
+    assert mock_loader.insert_genre.call_count == 20
 
 
-def test_run_ingestion_inserts_artists_and_relations(mocks):
-    """Should insert artists and artist-genre relations."""
-    mock_client, mock_loader = mocks
-    mock_client.search_artists_by_genre.return_value = {
-        "artists": [{"id": "artist-1", "name": "Test", "country": "BR"}],
-        "count": 1,
-    }
+def test_run_ingestion_inserts_origin_artists(mocks):
+    """Should insert origin artists for each genre."""
+    mock_loader = mocks
 
     run_ingestion()
 
-    assert mock_loader.insert_artist.call_count == 31
-    assert mock_loader.insert_artist_genre.call_count == 31
+    assert mock_loader.insert_artist.call_count == 20
 
 
-# ===== Testes de logging =====
+def test_run_ingestion_inserts_artist_genre_relations(mocks):
+    """Should insert artist-genre relations for each genre."""
+    mock_loader = mocks
+
+    run_ingestion()
+
+    assert mock_loader.insert_artist_genre.call_count == 20
 
 
 def test_run_ingestion_logs_start_and_completion(mocks):
@@ -76,42 +62,22 @@ def test_run_ingestion_logs_start_and_completion(mocks):
         assert "Ingestion complete" in end_call[0][0]
 
 
-def test_run_ingestion_logs_artist_count(mocks):
-    """Should log artist count for each genre."""
-    mock_client, _ = mocks
-    mock_client.search_artists_by_genre.return_value = {"artists": [], "count": 150}
+def test_run_ingestion_skips_genre_without_origin(mocks):
+    """Should skip genre not found in GENRE_ORIGINS."""
+    with patch("app.ingestion.ingestion_runner.logger.warning") as mock_warning:
+        with patch("app.ingestion.ingestion_runner.ALL_GENRES", ["fake-genre"]):
+            run_ingestion()
 
-    with patch("app.ingestion.ingestion_runner.logger.info") as mock_info:
-        run_ingestion()
-
-        found = any(
-            "Found" in str(call) and "artists for genre" in str(call)
-            for call in mock_info.call_args_list
-        )
-        assert found, "Expected 'Found X artists for genre' log not found"
+        mock_warning.assert_called_once()
+        assert "No origin data" in mock_warning.call_args[0][0]
 
 
-@pytest.mark.parametrize(
-    "failure_type",
-    [
-        "artist_insert",
-        "genre_process",
-    ],
-)
-def test_run_ingestion_logs_error(mocks, failure_type):
-    """Should log error on failures."""
-    mock_client, mock_loader = mocks
-
-    if failure_type == "artist_insert":
-        mock_client.search_artists_by_genre.return_value = {
-            "artists": [{"id": "bad", "name": None}],
-            "count": 1,
-        }
-        mock_loader.insert_artist.side_effect = Exception("DB error")
-    else:
-        mock_client.search_artists_by_genre.side_effect = Exception("API error")
+def test_run_ingestion_logs_error_on_insert_failure(mocks):
+    """Should log error when genre processing fails."""
+    mock_loader = mocks
+    mock_loader.insert_genre.side_effect = Exception("DB error")
 
     with patch("app.ingestion.ingestion_runner.logger.error") as mock_error:
         run_ingestion()
 
-        assert mock_error.call_count >= 1
+        assert mock_error.call_count == 20

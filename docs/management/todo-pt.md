@@ -22,8 +22,8 @@ Este documento detalha todas as etapas para o MVP, unindo engenharia de dados, b
 - [X] **Setup de Dados:** Configurar extensões espaciais do DuckDB para suporte geográfico.
 
 ### 🎯 MVP (Múltiplas Fontes de Dados)
-- [ ] **Wikipedia (Origem)**: Tabela manual com país e ano de surgimento de cada gênero.
-- [ ] **Google Trends (Propagação)**: Cliente para buscar primeira busca significativa por país.
+- [X] **Wikipedia (Origem)**: Tabela manual com país e ano de surgimento de cada gênero.
+- [X] **Google Trends (Propagação)**: Cliente para buscar primeira busca significativa por país.
 - [ ] **Spotify Charts (Popularidade)**: Cliente para obter popularidade atual por país.
 - [ ] **Camada Silver (Normalização)**: Integrar e limpar dados das três fontes.
 - [ ] **Camada Gold Essencial**: Criar `gold.genre_first_appearance` com dados consolidados.

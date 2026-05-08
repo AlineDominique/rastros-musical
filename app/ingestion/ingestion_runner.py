@@ -1,33 +1,15 @@
-"""Main ingestion runner — orchestrates MusicBrainz fetch and Bronze loading."""
+"""Main ingestion runner — orchestrates multi-source data loading into Bronze."""
 
 import logging
 
 from app.db.database import db_manager
 from app.ingestion.bronze_loader import BronzeLoader
+from app.ingestion.genre_origins import GENRE_ORIGINS
 from app.ingestion.genres import ALL_GENRES
-from app.ingestion.musicbrainz import MusicBrainzClient
 from app.middleware.logging_config import setup_logging
 
 setup_logging()
 logger = logging.getLogger("rastros-musical.ingestion")
-
-
-def _parse_artist(artist: dict) -> dict:
-    """Extract relevant fields from a MusicBrainz artist.
-
-    Args:
-        artist: Raw artist dict from MusicBrainz API.
-
-    Returns:
-        Simplified artist dict ready for Bronze insertion.
-    """
-    return {
-        "artist_id": artist.get("id"),
-        "name": artist.get("name"),
-        "country_code": artist.get("country", ""),
-        "latitude": None,
-        "longitude": None,
-    }
 
 
 def _generate_genre_id(genre_name: str) -> str:
@@ -42,46 +24,13 @@ def _generate_genre_id(genre_name: str) -> str:
     return f"genre-{genre_name.replace(' ', '-').lower()}"
 
 
-def _fetch_all_artists(client: MusicBrainzClient, genre: str) -> list[dict]:
-    """Fetch all artists for a genre using pagination.
-
-    Iterates through all available pages of the MusicBrainz API to collect
-    the complete list of artists associated with a genre, not just the
-    first 100 results.
-
-    Args:
-        client: MusicBrainz client instance.
-        genre: Genre name to search for.
-
-    Returns:
-        Complete list of artist dicts from all pages.
-    """
-    all_artists = []
-    offset = 0
-    limit = 100
-
-    while True:
-        data = client.search_artists_by_genre(genre, limit=limit, offset=offset)
-        artists = data.get("artists", [])
-        all_artists.extend(artists)
-
-        count = data.get("count", 0)
-        offset += limit
-        if offset >= count:
-            break
-
-    return all_artists
-
-
 def run_ingestion() -> None:
-    """Fetch artists by genre from MusicBrainz and load into Bronze.
+    """Load genre origins into Bronze layer.
 
-    Iterates over all MVP genres, fetches the complete list of artists
-    for each one via the MusicBrainz API, and inserts them into the
-    Bronze layer using the BronzeLoader.
+    Uses curated data from Wikipedia and musicological sources
+    to populate the Bronze layer with validated genre origins.
     """
-    client = MusicBrainzClient()
-    stats = {"genres_processed": 0, "genres_failed": 0, "artists_inserted": 0}
+    stats = {"genres_processed": 0, "genres_failed": 0}
 
     logger.info("Starting ingestion for %d genres", len(ALL_GENRES))
 
@@ -92,31 +41,34 @@ def run_ingestion() -> None:
             logger.info("Processing genre: %s", genre_name)
 
             try:
+                origin = GENRE_ORIGINS.get(genre_name)
+                if not origin:
+                    logger.warning("No origin data for genre: %s", genre_name)
+                    stats["genres_failed"] += 1
+                    continue
+
                 genre_id = _generate_genre_id(genre_name)
                 loader.insert_genre({"genre_id": genre_id, "name": genre_name})
 
-                artists = _fetch_all_artists(client, genre_name)
-                logger.info("Found %d artists for genre: %s", len(artists), genre_name)
-
-                for artist in artists:
-                    try:
-                        artist_data = _parse_artist(artist)
-                        loader.insert_artist(artist_data)
-                        loader.insert_artist_genre(
-                            {
-                                "artist_id": artist_data["artist_id"],
-                                "genre_id": genre_id,
-                                "start_date": artist.get("life-span", {}).get("begin"),
-                                "end_date": artist.get("life-span", {}).get("end"),
-                            }
-                        )
-                        stats["artists_inserted"] += 1
-                    except Exception as e:
-                        logger.error(
-                            "Failed to insert artist %s: %s",
-                            artist.get("name", "unknown"),
-                            e,
-                        )
+                # Insert origin as a virtual artist representing the genre's birthplace
+                artist_id = f"origin-{genre_id}"
+                loader.insert_artist(
+                    {
+                        "artist_id": artist_id,
+                        "name": f"{genre_name} (Origin)",
+                        "country_code": origin["country_code"],
+                        "latitude": None,
+                        "longitude": None,
+                    }
+                )
+                loader.insert_artist_genre(
+                    {
+                        "artist_id": artist_id,
+                        "genre_id": genre_id,
+                        "start_date": str(origin["year_start"]),
+                        "end_date": None,
+                    }
+                )
 
                 stats["genres_processed"] += 1
 
@@ -125,8 +77,7 @@ def run_ingestion() -> None:
                 stats["genres_failed"] += 1
 
     logger.info(
-        "Ingestion complete. Genres: %d processed, %d failed. Artists inserted: %d",
+        "Ingestion complete. Genres: %d processed, %d failed.",
         stats["genres_processed"],
         stats["genres_failed"],
-        stats["artists_inserted"],
     )
