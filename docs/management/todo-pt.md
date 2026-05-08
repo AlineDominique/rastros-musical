@@ -41,9 +41,12 @@ Este documento detalha todas as etapas para o MVP, unindo engenharia de dados, b
 ## 🟡 Fase 3: API de Serviços (FastAPI)
 
 ### 🎯 MVP (Dois Endpoints Essenciais)
-- [ ] **Singleton de Banco**: Gerenciar conexões persistentes com o arquivo `.db` do DuckDB.
+- [X] **Singleton de Banco**: Gerenciar conexões persistentes com o arquivo `.db` do DuckDB.
 - [ ] **Endpoint de Gêneros**: `GET /api/genres` retornando a lista de gêneros únicos disponíveis.
 - [ ] **Endpoint de Propagação**: `GET /api/propagation?genre=...&year=...` retornando os países onde o gênero apareceu até o ano informado (lat, lon, ano).
+- [ ] **CORS**: Configurar origens permitidas para o frontend consumir a API.
+- [ ] **Pydantic nos Endpoints**: Usar `response_model` com schemas para documentar e validar respostas.
+- [ ] **Validação de Parâmetros**: Garantir que `genre` exista na base e `year` esteja no intervalo válido.
 - [ ] **Documentação OpenAPI**: Escrever exemplos claros no Swagger para facilitar o consumo pelo frontend.
 
 ### 📈 Incrementações Futuras

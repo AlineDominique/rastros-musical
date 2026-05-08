@@ -40,9 +40,12 @@ This document tracks the MVP progress, integrating data engineering, backend ser
 ## 🟡 Phase 3: Service API (FastAPI)
 
 ### 🎯 MVP (Two Essential Endpoints)
-- [ ] **Database Singleton**: Manage persistent connections to the `.db` file.
+- [X] **Database Singleton**: Manage persistent connections to the `.db` file.
 - [ ] **Genres Endpoint**: `GET /api/genres` returning the list of unique available genres.
 - [ ] **Propagation Endpoint**: `GET /api/propagation?genre=...&year=...` returning countries where the genre appeared up to the given year (lat, lon, year).
+- [ ] **CORS**: Configure allowed origins for frontend consumption.
+- [ ] **Pydantic Response Models**: Use `response_model` with schemas to document and validate responses.
+- [ ] **Parameter Validation**: Ensure `genre` exists in the database and `year` is within valid range.
 - [ ] **OpenAPI Documentation**: Write clear Swagger examples for easy frontend consumption.
 
 ### 📈 Future Increments
