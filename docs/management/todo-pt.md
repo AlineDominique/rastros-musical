@@ -55,12 +55,11 @@ Preencher a lacuna temporal entre as origens históricas dos gêneros (pré-2004
 
 ### 🎯 MVP (Dois Endpoints Essenciais)
 - [X] **Singleton de Banco**: Gerenciar conexões persistentes com o arquivo `.db` do DuckDB.
-- [ ] **Endpoint de Gêneros**: `GET /api/genres` retornando a lista de gêneros únicos disponíveis.
-- [ ] **Endpoint de Propagação**: `GET /api/propagation?genre=...&year=...` retornando os países onde o gênero apareceu até o ano informado (lat, lon, ano).
-- [ ] **CORS**: Configurar origens permitidas para o frontend consumir a API.
-- [ ] **Pydantic nos Endpoints**: Usar `response_model` com schemas para documentar e validar respostas.
-- [ ] **Validação de Parâmetros**: Garantir que `genre` exista na base e `year` esteja no intervalo válido.
-- [ ] **Documentação OpenAPI**: Escrever exemplos claros no Swagger para facilitar o consumo pelo frontend.
+- [X] **Endpoint de Gêneros**: `GET /api/genres` retornando a lista de gêneros únicos disponíveis.
+- [X] **Endpoint de Propagação**: `GET /api/propagation?genre=...&year=...` retornando os países onde o gênero apareceu até o ano informado (lat, lon, ano).
+- [X] **Pydantic nos Endpoints**: Usar `response_model` com schemas para documentar e validar respostas.
+- [X] **Validação de Parâmetros**: Garantir que `genre` exista na base e `year` esteja no intervalo válido.
+- [X] **Documentação OpenAPI**: Escrever exemplos claros no Swagger para facilitar o consumo pelo frontend.
 
 ### 📈 Incrementações Futuras
 - [ ] **Endpoints de Séries Temporais**: Rotas para evolução detalhada (lançamentos por ano/país) e métricas de migração.
@@ -72,6 +71,7 @@ Preencher a lacuna temporal entre as origens históricas dos gêneros (pré-2004
 
 ### 🎯 MVP (Mapa Vivo com Controles Mínimos)
 - [ ] **Setup do Framework (/web)**: Inicializar projeto React (Vite) sem i18n inicial.
+- [ ] **CORS**: Configurar origens permitidas para o frontend consumir a API.
 - [ ] **Mapa com ScatterplotLayer**: Exibir pontos coloridos representando a primeira aparição do gênero nos países.
 - [ ] **Dropdown de Gênero**: Selecionar um gênero da lista obtida da API.
 - [ ] **Componente Time-Slider**: Slider (1970–2026) que dispara novas chamadas à API ao ser alterado.

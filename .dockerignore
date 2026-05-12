@@ -17,7 +17,7 @@ coverage.xml
 # Data (DuckDB mounted as volume)
 data/raw/*
 data/processed/*
-data/*.db
+!data/rastros_musical.db
 data/*.wal
 
 # Git and CI

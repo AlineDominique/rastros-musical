@@ -16,11 +16,14 @@ async def not_found_handler(request: Request, exc) -> JSONResponse:
         exc: The exception that was raised.
 
     Returns:
-        JSONResponse with 404 status.
+        JSONResponse with 404 status and appropriate detail message.
     """
+    detail = getattr(exc, "detail", "Resource not found")
+    if detail == "Not Found":
+        detail = "Resource not found"
     return JSONResponse(
         status_code=404,
-        content={"detail": "Resource not found"},
+        content={"detail": detail},
     )
 
 

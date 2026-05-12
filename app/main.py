@@ -1,16 +1,15 @@
 """Main entry point for the FastAPI application and route definitions."""
 
-import logging
-
 from fastapi import FastAPI
 
+from app.api.genres import router as genres_router
+from app.api.propagation import router as propagation_router
 from app.exceptions.handlers import internal_error_handler, not_found_handler
 from app.middleware.logging import log_requests
+from app.middleware.logging_config import setup_logging
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
-)
+setup_logging()
+
 
 app = FastAPI(
     title="Rastros Musical API",
@@ -24,6 +23,8 @@ app.middleware("http")(log_requests)
 # Exception handlers
 app.add_exception_handler(404, not_found_handler)
 app.add_exception_handler(500, internal_error_handler)
+app.include_router(genres_router)
+app.include_router(propagation_router)
 
 
 @app.get("/", tags=["Health"], response_model=dict[str, str])

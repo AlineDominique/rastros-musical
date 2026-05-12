@@ -55,12 +55,11 @@ Fill the temporal gap between historical genre origins (pre-2004) and Google Tre
 
 ### 🎯 MVP (Two Essential Endpoints)
 - [X] **Database Singleton**: Manage persistent connections to the `.db` file.
-- [ ] **Genres Endpoint**: `GET /api/genres` returning the list of unique available genres.
-- [ ] **Propagation Endpoint**: `GET /api/propagation?genre=...&year=...` returning countries where the genre appeared up to the given year (lat, lon, year).
-- [ ] **CORS**: Configure allowed origins for frontend consumption.
-- [ ] **Pydantic Response Models**: Use `response_model` with schemas to document and validate responses.
-- [ ] **Parameter Validation**: Ensure `genre` exists in the database and `year` is within valid range.
-- [ ] **OpenAPI Documentation**: Write clear Swagger examples for easy frontend consumption.
+- [X] **Genres Endpoint**: `GET /api/genres` returning the list of unique available genres.
+- [X] **Propagation Endpoint**: `GET /api/propagation?genre=...&year=...` returning countries where the genre appeared up to the given year (lat, lon, year).
+- [X] **Pydantic Response Models**: Use `response_model` with schemas to document and validate responses.
+- [X] **Parameter Validation**: Ensure `genre` exists in the database and `year` is within valid range.
+- [X] **OpenAPI Documentation**: Write clear Swagger examples for easy frontend consumption.
 
 ### 📈 Future Increments
 - [ ] **Time-Series Endpoints**: Routes for detailed evolution (releases per year/country) and migration metrics.
@@ -72,6 +71,7 @@ Fill the temporal gap between historical genre origins (pre-2004) and Google Tre
 
 ### 🎯 MVP (Live Map with Minimal Controls)
 - [ ] **Framework Setup (/web)**: Initialize React project (Vite) without initial i18n.
+- [ ] **CORS**: Configure allowed origins for frontend consumption.
 - [ ] **ScatterplotLayer Map**: Display colored dots representing the first appearance of a genre in each country.
 - [ ] **Genre Dropdown**: Select a genre from the list obtained via the API.
 - [ ] **Time-Slider Component**: Slider (1970–2026) that triggers new API calls on change.
