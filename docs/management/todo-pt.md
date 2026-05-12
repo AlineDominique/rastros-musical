@@ -14,7 +14,6 @@ Este documento detalha todas as etapas para o MVP, unindo engenharia de dados, b
 - [X] **CI/CD Inicial:** Configurar GitHub Actions para rodar o pipeline de make check.
 
 ---
-
 ## 🔵 Fase 2: Engenharia de Dados (Arquitetura Medallion)
 
 ### ✅ Concluído
@@ -27,13 +26,27 @@ Este documento detalha todas as etapas para o MVP, unindo engenharia de dados, b
 - [X] **Camada Silver (Normalização)**: Integrar e limpar dados das três fontes.
 - [X] **Camada Gold Essencial**: Criar `gold.genre_first_appearance` com dados consolidados.
 
+---
 
-### 📈 Incrementações Futuras
-- [ ] **Enriquecimento de Propagação**: Adicionar fontes complementares (Spotify Charts, Discogs, Wikipedia) para preencher lacunas temporais entre origem e Google Trends (pré-2004).
+## 🔵 Fase 2.5: Enriquecimento de Dados (Million Song Dataset)
+
+### 🎯 Objetivo
+Preencher a lacuna temporal entre as origens históricas dos gêneros (pré-2004) e os dados do Google Trends (2004+), utilizando o **Million Song Dataset (MSD)**, **Musicmap** e **Every Noise at Once**.
+
+### Tarefas
+- [ ] **Download do MSD**: Obter o subconjunto de 1.8 GB (10.000 músicas) do Million Song Dataset.
+- [ ] **Pré-processamento**: Extrair ano, país, latitude e longitude de faixas no formato HDF5.
+- [ ] **Filtro por Gênero**: Associar artistas do MSD aos 20 gêneros curados usando tags MusicBrainz.
+- [ ] **Integração Silver/Gold**: Alimentar `silver.genre_propagation` e `gold.genre_first_appearance` com os novos dados.
+- [ ] **Validação Manual**: Filtrar falsos positivos utilizando **Musicmap** (genealogia) e **Every Noise at Once** (artistas representativos).
+
+### 📈 Incrementações Futuras (além da Fase 2.5)
+- [ ] **Download do dataset completo**: Processar os 280 GB do MSD para análise mais abrangente.
+- [ ] **Radiooooo.com**: Explorar a API privada para validação com curadoria humana.
 - [ ] **Automação da ingestão**: Atualização periódica via GitHub Actions.
-- [ ] **Validação cruzada**: Confrontar dados das três fontes para garantir consistência.
+- [ ] **Validação cruzada**: Confrontar dados de múltiplas fontes para garantir consistência.
 - [ ] **Spotify Charts (Popularidade)**: Cliente para obter popularidade atual por país.
-- [ ] **Camada Silver (Normalização)**: Validação de `country_code` contra ISO 3166-1, normalização de nomes (strip, title case) e deduplicação de artistas com mesmo nome e país.
+- [ ] **Camada Silver (Normalização)**: Validação de `country_code` contra ISO 3166-1, normalização de nomes e deduplicação de artistas.
 - [ ] **Camada Gold Avançada**: Tabelas analíticas de crescimento (`gold.genre_growth`), popularidade comparada e agregações temporais.
 
 ---

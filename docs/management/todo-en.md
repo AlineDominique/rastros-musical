@@ -14,7 +14,6 @@ This document tracks the MVP progress, integrating data engineering, backend ser
 - [X] **CI/CD Pipeline**: Set up GitHub Actions to run the make check pipeline.
 
 ---
-
 ## 🔵 Phase 2: Data Engineering (Medallion Architecture)
 
 ### ✅ Completed
@@ -27,12 +26,27 @@ This document tracks the MVP progress, integrating data engineering, backend ser
 - [X] **Silver Layer (Normalization)**: Integrate and clean data from all three sources.
 - [X] **Essential Gold Layer**: Create `gold.genre_first_appearance` with consolidated data.
 
-### 📈 Future Increments
-- [ ] **Propagation Enrichment**: Add complementary sources (Spotify Charts, Discogs, Wikipedia) to fill temporal gaps between origin and Google Trends (pre-2004).
+---
+
+## 🔵 Phase 2.5: Data Enrichment (Million Song Dataset)
+
+### 🎯 Goal
+Fill the temporal gap between historical genre origins (pre-2004) and Google Trends data (2004+), using the **Million Song Dataset (MSD)**, **Musicmap**, and **Every Noise at Once**.
+
+### Tasks
+- [ ] **MSD Download**: Obtain the 1.8 GB subset (10,000 songs) of the Million Song Dataset.
+- [ ] **Preprocessing**: Extract year, country, latitude, and longitude from tracks in HDF5 format.
+- [ ] **Genre Filtering**: Associate MSD artists with the 20 curated genres using MusicBrainz tags.
+- [ ] **Silver/Gold Integration**: Feed `silver.genre_propagation` and `gold.genre_first_appearance` with the new data.
+- [ ] **Manual Validation**: Filter false positives using **Musicmap** (genealogy) and **Every Noise at Once** (representative artists).
+
+### 📈 Future Increments (beyond Phase 2.5)
+- [ ] **Full dataset download**: Process the full 280 GB MSD for more comprehensive analysis.
+- [ ] **Radiooooo.com**: Explore the private API for human-curated validation.
 - [ ] **Ingestion automation**: Periodic updates via GitHub Actions.
-- [ ] **Cross-validation**: Compare data from all sources for consistency.
+- [ ] **Cross-validation**: Compare data from multiple sources for consistency.
 - [ ] **Spotify Charts (Popularity)**: Client to get current popularity by country.
-- [ ] **Silver Layer (Normalization)**: `country_code` validation against ISO 3166-1, name normalization (strip, title case), and artist deduplication by name and country.
+- [ ] **Silver Layer (Normalization)**: `country_code` validation against ISO 3166-1, name normalization, and artist deduplication by name and country.
 - [ ] **Gold Layer (Advanced)**: Analytical tables for growth (`gold.genre_growth`), comparative popularity, and temporal aggregations.
 
 ---
