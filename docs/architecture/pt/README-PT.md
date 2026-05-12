@@ -124,6 +124,19 @@ O planejamento estratégico e o acompanhamento de tarefas deste projeto estão c
 Você pode acompanhar o progresso em tempo real aqui:
 **[Roadmap de Desenvolvimento](../../../docs/management/todo-pt.md)**
 
+## 🚀 API em Produção
+
+O backend está publicado no Render e disponível em:
+
+**[https://rastros-musical.onrender.com](https://rastros-musical.onrender.com)**
+
+### Endpoints
+
+- `GET /api/genres` — Lista todos os gêneros disponíveis
+- `GET /api/propagation?genre={nome}&year={ano}` — Dados de propagação de um gênero
+
+Documentação Swagger: [https://rastros-musical.onrender.com/docs](https://rastros-musical.onrender.com/docs)
+
 ### Status Atual:
 - **Fase 1 (Fundação):** Concluída ✅
 - **Fase 2 (Engenharia de Dados):** Concluída ✅

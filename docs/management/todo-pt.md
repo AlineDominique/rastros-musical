@@ -88,11 +88,11 @@ Preencher a lacuna temporal entre as origens históricas dos gêneros (pré-2004
 ## 🔴 Fase 5: DevOps e Deploy Automático (Gratuito)
 
 ### 🎯 MVP (Deploy Manual com Link Público)
-- [ ] **Deploy Backend**: Subir container da pasta `/app` no Fly.io.
+- [X] **Deploy Backend**: Subir container da pasta `/app` no Render.
 - [ ] **Deploy Frontend**: Fazer build e deploy da pasta `/web` na Vercel.
-- [ ] **Variáveis de Ambiente**: Configurar URL da API no frontend para apontar para o Fly.io.
+- [ ] **Variáveis de Ambiente**: Configurar URL da API no frontend para apontar para o Render.
 
 ### 📈 Incrementações Futuras
-- [ ] **Deploy Automático Backend**: CI/CD completo vinculando o repositório ao Fly.io via GitHub Actions.
+- [ ] **Deploy Automático Backend**: CI/CD completo vinculando o repositório ao Render via GitHub Actions.
 - [ ] **Deploy Automático Frontend**: CI/CD completo vinculando o repositório à Vercel via GitHub Actions.
 - [ ] **Auditoria de Dados Final**: Check de consistência proativo executado no pipeline antes de cada deploy.

@@ -88,7 +88,7 @@ Fill the temporal gap between historical genre origins (pre-2004) and Google Tre
 ## 🔴 Phase 5: DevOps & Automated Deploy (Free)
 
 ### 🎯 MVP (Manual Deploy with Public Link)
-- [ ] **Backend Deploy**: Deploy `/app` container to Fly.io.
+- [X] **Backend Deploy**: Deploy `/app` container to Render.
 - [ ] **Frontend Deploy**: Build and deploy `/web` to Vercel.
 - [ ] **Environment Variables**: Configure API URL in the frontend to point to Fly.io.
 

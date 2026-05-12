@@ -39,8 +39,9 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/AlineDominique/rastros-musical-api"
-Repository = "https://github.com/AlineDominique/rastros-musical-api"
+Homepage = "https://github.com/AlineDominique/rastros-musical"
+Repository = "https://github.com/AlineDominique/rastros-musical"
+"Live API" = "https://rastros-musical.onrender.com"
 
 [dependency-groups]
 dev = [

@@ -132,6 +132,19 @@ The strategic planning and task tracking for this project are centralized in our
 You can follow our live progress here:
 **[Full Development Roadmap](./docs/management/todo-en.md)**
 
+## 🚀 Live API
+
+The backend is deployed on Render and available at:
+
+**[https://rastros-musical.onrender.com](https://rastros-musical.onrender.com)**
+
+### Endpoints
+
+- `GET /api/genres` — List all available genres
+- `GET /api/propagation?genre={name}&year={year}` — Get propagation data for a genre
+
+Swagger docs: [https://rastros-musical.onrender.com/docs](https://rastros-musical.onrender.com/docs)
+
 ### Current Status:
 - **Phase 1 (Foundation):** Completed ✅
 - **Phase 2 (Data Engineering):** Completed ✅
